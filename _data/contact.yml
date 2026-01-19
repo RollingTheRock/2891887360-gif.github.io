@@ -17,9 +17,9 @@
   url: "/feed.xml"
   noblank: true 
   
-  - type: wechat
+- type: wechat
   icon: "fab fa-weixin"
-  url:  "#"  # 暂时用 # 占位
+  url: "#"  # 暂时用 # 占位
 # Uncomment and complete the url below to enable more contact options
 #
 # - type: mastodon
