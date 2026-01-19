@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (wechatLink) {
     wechatLink.addEventListener('click', function(e) {
-      e.preventDefault();
+      e.preventDefault(); 
       
       // 创建弹窗显示二维码
       const modal = document.createElement('div');
