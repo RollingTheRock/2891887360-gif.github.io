@@ -15,7 +15,7 @@
 - type: rss
   icon: "fas fa-rss"
   url: "/feed.xml"
-  noblank: true
+  noblank: true 
 # Uncomment and complete the url below to enable more contact options
 #
 # - type: mastodon
