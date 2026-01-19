@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
       `;
-      document.body.appendChild(modal);
+      document.body.appendChild(modal); 
     });
   }
 });
