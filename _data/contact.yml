@@ -10,12 +10,16 @@
 - type: email
   icon: "fas fa-envelope"
   url: "mailto:2891887360@qq.com" 
-  noblank: false # open link in current tab
+  noblank: true # open link in current tab
 
 - type: rss
   icon: "fas fa-rss"
   url: "/feed.xml"
   noblank: true 
+  
+  - type: wechat
+  icon: "fab fa-weixin"
+  url:  "#"  # 暂时用 # 占位
 # Uncomment and complete the url below to enable more contact options
 #
 # - type: mastodon
