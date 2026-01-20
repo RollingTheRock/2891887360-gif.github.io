@@ -119,7 +119,7 @@ comments:
     issue_term: # < url | pathname | title | ...>
   # Giscus options › https://giscus.app
   giscus:
-    repo: RollingTheRock/2891887360-gif. github.io
+    repo: RollingTheRock/2891887360-gif.github.io
     repo_id: R_kgDOQ8BAKA
     category: Announcements
     category_id: DIC_kwDOQ8BAKM4C1KCv
