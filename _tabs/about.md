@@ -2,6 +2,7 @@
 title: 关于
 icon: fas fa-info-circle
 order: 4
+math: true
 ---
 
 ## 你好，我是王若如
