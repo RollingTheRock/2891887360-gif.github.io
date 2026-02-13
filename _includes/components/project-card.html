@@ -1,9 +1,10 @@
 {% comment %}
   Project Card Component
-  Usage: {% include components/project-card.html project=project_variable featured=true/false reveal_delay=number %}
+  Usage example:
+    {% include components/project-card.html project=project_variable featured=true %}
 
   Required: project (object with title, description, image, tags, link, github)
-  Optional: featured (boolean), reveal_delay (number)
+  Optional: featured (boolean)
 {% endcomment %}
 
 {% assign project = include.project %}
