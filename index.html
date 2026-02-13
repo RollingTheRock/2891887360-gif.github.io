@@ -13,8 +13,13 @@ description: 王若如的个人门户网站 - 技术，思想，生活。区块�
 
 {% include landing/hero.html %}
 
-{% include landing/nav-cards.html %}
+{% comment %} 特色文章 {% endcomment %}
+{% include home/featured-post.html %}
 
-{% include landing/featured.html %}
+{% comment %} 最新博客 {% endcomment %}
+{% include home/recent-posts.html %}
+
+{% comment %} 精选项目 {% endcomment %}
+{% include home/featured-projects.html %}
 
 {% comment %} Optional: Add newsletter or contact CTA section here {% endcomment %}

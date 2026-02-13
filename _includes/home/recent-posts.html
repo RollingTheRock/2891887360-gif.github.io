@@ -1,0 +1,32 @@
+{% assign recent_posts = site.posts | where_exp: "post", "post.pin != true" | limit: 3 %}
+
+{% if recent_posts.size > 0 %}
+<section class="home-recent">
+  <div class="container-wide">
+    <div class="section-header">
+      <h2 class="section-title">最新文章</h2>
+      <a href="{{ '/blog/' | relative_url }}" class="section-link">查看全部 →</a>
+    </div>
+
+    <div class="recent-grid">
+      {% for post in recent_posts %}
+      <article class="recent-card">
+        <a href="{{ post.url | relative_url }}" class="recent-link">
+          {% if post.image %}
+          <div class="recent-image">
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+          </div>
+          {% endif %}
+
+          <div class="recent-content">
+            <h3 class="recent-title">{{ post.title }}</h3>
+            <p class="recent-excerpt">{{ post.description | default: post.excerpt | strip_html | truncate: 80 }}</p>
+            <time class="recent-date">{{ post.date | date: "%Y.%m.%d" }}</time>
+          </div>
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

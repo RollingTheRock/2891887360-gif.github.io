@@ -1,0 +1,270 @@
+// ==========================================
+// 首页内容区样式
+// ==========================================
+
+@import 'variables';
+
+// 特色文章
+.home-featured {
+  padding: #{$space-12} 0 #{$space-16};
+}
+
+.featured-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.featured-image {
+  aspect-ratio: 21/9;
+  overflow: hidden;
+  border-radius: $radius-lg;
+  margin-bottom: $space-6;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+}
+
+.featured-link:hover .featured-image img {
+  transform: scale(1.02);
+}
+
+.featured-category {
+  display: inline-block;
+  font-size: $text-sm;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing-wider;
+  margin-bottom: $space-3;
+}
+
+.featured-title {
+  font-family: $font-family-serif;
+  font-size: $text-4xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  margin-bottom: $space-4;
+  transition: color $transition-fast;
+
+  @include media-down-md {
+    font-size: $text-3xl;
+  }
+}
+
+.featured-link:hover .featured-title {
+  color: $text-secondary;
+}
+
+.featured-excerpt {
+  font-size: $text-lg;
+  color: $text-secondary;
+  line-height: $line-height-normal;
+  max-width: 720px;
+  margin-bottom: $space-4;
+}
+
+.featured-meta {
+  font-size: $text-sm;
+  color: $text-muted;
+}
+
+// 区块标题
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-8;
+}
+
+.section-title {
+  font-family: $font-family-serif;
+  font-size: $text-xl;
+  font-weight: $font-weight-semibold;
+}
+
+.section-link {
+  font-size: $text-base;
+  color: $text-secondary;
+  text-decoration: none;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+// 最新文章
+.home-recent {
+  padding: #{$space-16} 0;
+  background: $bg-tertiary;
+}
+
+.recent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-8;
+
+  @include media-down-lg {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-down-sm {
+    grid-template-columns: 1fr;
+  }
+}
+
+.recent-card {
+  background: $bg-primary;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  border: 1px solid $border;
+  transition: box-shadow $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-lg;
+  }
+}
+
+.recent-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.recent-image {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+}
+
+.recent-link:hover .recent-image img {
+  transform: scale(1.03);
+}
+
+.recent-content {
+  padding: $space-5;
+}
+
+.recent-title {
+  font-family: $font-family-serif;
+  font-size: $text-lg;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+  margin-bottom: $space-2;
+  transition: color $transition-fast;
+}
+
+.recent-link:hover .recent-title {
+  color: $text-secondary;
+}
+
+.recent-excerpt {
+  font-size: $text-base;
+  color: $text-secondary;
+  line-height: $line-height-normal;
+  margin-bottom: $space-3;
+}
+
+.recent-date {
+  font-size: $text-sm;
+  color: $text-muted;
+}
+
+// 精选项目
+.home-projects {
+  padding: #{$space-16} 0;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-8;
+
+  @include media-down-lg {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-down-sm {
+    grid-template-columns: 1fr;
+  }
+}
+
+.project-card {
+  border-radius: $radius-lg;
+  overflow: hidden;
+  border: 1px solid $border;
+  transition: box-shadow $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-lg;
+  }
+}
+
+.project-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-image {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: $bg-tertiary;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+}
+
+.project-link:hover .project-image img {
+  transform: scale(1.03);
+}
+
+.project-content {
+  padding: $space-5;
+}
+
+.project-title {
+  font-family: $font-family-serif;
+  font-size: $text-lg;
+  font-weight: $font-weight-semibold;
+  margin-bottom: $space-2;
+  transition: color $transition-fast;
+}
+
+.project-link:hover .project-title {
+  color: $text-secondary;
+}
+
+.project-desc {
+  font-size: $text-base;
+  color: $text-secondary;
+  line-height: $line-height-normal;
+  margin-bottom: $space-3;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-1;
+
+  span {
+    font-size: $text-xs;
+    color: $text-muted;
+    background: $bg-tertiary;
+    padding: $space-1 $space-2;
+    border-radius: $radius-sm;
+  }
+}

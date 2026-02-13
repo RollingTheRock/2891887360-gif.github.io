@@ -1,0 +1,34 @@
+{% assign featured = site.posts | where: "pin", true | first %}
+{% unless featured %}
+  {% assign featured = site.posts.first %}
+{% endunless %}
+
+{% if featured %}
+<section class="home-featured">
+  <div class="container-wide">
+    <a href="{{ featured.url | relative_url }}" class="featured-link">
+      {% if featured.image %}
+      <div class="featured-image">
+        <img src="{{ featured.image | relative_url }}" alt="{{ featured.title }}" loading="eager">
+      </div>
+      {% endif %}
+
+      <div class="featured-content">
+        {% if featured.categories.size > 0 %}
+        <span class="featured-category">{{ featured.categories[0] }}</span>
+        {% endif %}
+
+        <h2 class="featured-title">{{ featured.title }}</h2>
+
+        <p class="featured-excerpt">
+          {{ featured.description | default: featured.excerpt | strip_html | truncate: 200 }}
+        </p>
+
+        <div class="featured-meta">
+          <span>{{ featured.date | date: "%Y.%m.%d" }}</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+{% endif %}
