@@ -1,0 +1,107 @@
+{% comment %}
+  Video Card Component
+  Usage: {% include components/video-card.html video=video_variable reveal_delay=number %}
+
+  Required: video (object with title, platform, video_id, thumbnail, description, date, duration)
+  Optional: reveal_delay (number)
+{% endcomment %}
+
+{% assign video = include.video %}
+{% assign delay = include.reveal_delay | default: 0 %}
+
+<article class="landing-video-card landing-reveal landing-reveal--{{ delay }}">
+  {% comment %} Thumbnail {% endcomment %}
+  <div class="landing-video-card__thumbnail">
+    {% if video.thumbnail %}
+      <img src="{{ video.thumbnail | relative_url }}" alt="{{ video.title }}" loading="lazy">
+    {% else %}
+      <div class="landing-video-card__placeholder"
+           style="background: {{ video.color | default: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}">
+        <span class="landing-video-card__platform-icon">
+          {% if video.platform == 'bilibili' %}
+            📺
+          {% elsif video.platform == 'youtube' %}
+            ▶️
+          {% else %}
+            🎬
+          {% endif %}
+        </span>
+      </div>
+    {% endif %}
+
+    {% comment %} Play Button Overlay {% endcomment %}
+    <button
+      class="landing-video-card__play-btn"
+      data-platform="{{ video.platform }}"
+      data-video-id="{{ video.video_id }}"
+      aria-label="播放 {{ video.title }}"
+    >
+      <span class="landing-video-card__play-icon">▶</span>
+    </button>
+
+    {% comment %} Platform Badge {% endcomment %}
+    <span class="landing-video-card__platform">
+      {% if video.platform == 'bilibili' %}
+        <i class="fas fa-tv"></i> B站
+      {% elsif video.platform == 'youtube' %}
+        <i class="fab fa-youtube"></i> YouTube
+      {% else %}
+        <i class="fas fa-video"></i> 视频
+      {% endif %}
+    </span>
+
+    {% comment %} Duration Badge {% endcomment %}
+    {% if video.duration %}
+      <span class="landing-video-card__duration">{{ video.duration }}</span>
+    {% endif %}
+  </div>
+
+  {% comment %} Info {% endcomment %}
+  <div class="landing-video-card__info">
+    <h3 class="landing-video-card__title">{{ video.title }}</h3>
+    {% if video.description %}
+      <p class="landing-video-card__desc">{{ video.description }}</p>
+    {% endif %}
+
+    <div class="landing-video-card__meta">
+      {% if video.date %}
+        <span>
+          <i class="far fa-calendar"></i>
+          {{ video.date }}
+        </span>
+      {% endif %}
+      {% if video.views %}
+        <span>
+          <i class="far fa-eye"></i>
+          {{ video.views }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+</article>
+
+<style>
+  .landing-video-card__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .landing-video-card__platform-icon {
+    font-size: 48px;
+  }
+
+  .landing-video-card__duration {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+</style>

@@ -1,0 +1,275 @@
+{% comment %}
+  Landing Page Footer
+  - Brand section
+  - Navigation links
+  - Contact info
+  - Theme toggle
+  - Copyright
+{% endcomment %}
+
+<footer class="landing-footer">
+  <div class="landing-content-wrapper">
+    <div class="landing-footer__grid">
+
+      {% comment %} Brand Column {% endcomment %}
+      <div class="landing-footer__brand">
+        <a href="{{ '/' | relative_url }}" class="landing-footer__logo">
+          <img src="{{ site.avatar | relative_url }}" alt="" class="landing-footer__avatar">
+          <span class="landing-footer__name">{{ site.social.name }}</span>
+        </a>
+        <p class="landing-footer__tagline">{{ site.tagline }}</p>
+        <p class="landing-footer__description">{{ site.description }}</p>
+      </div>
+
+      {% comment %} Navigation Column {% endcomment %}
+      <div class="landing-footer__nav">
+        <h4 class="landing-footer__title">导航</h4>
+        <nav class="landing-footer__links">
+          <a href="{{ '/blog/' | relative_url }}">技术博客</a>
+          <a href="{{ '/projects/' | relative_url }}">开源项目</a>
+          <a href="{{ '/design/' | relative_url }}">设计作品</a>
+          <a href="{{ '/videos/' | relative_url }}">视频内容</a>
+          <a href="{{ '/about/' | relative_url }}">关于我</a>
+        </nav>
+      </div>
+
+      {% comment %} Contact Column {% endcomment %}
+      <div class="landing-footer__contact">
+        <h4 class="landing-footer__title">联系方式</h4>
+        <div class="landing-footer__links">
+          {% if site.social.email %}
+            <a href="mailto:{{ site.social.email }}">
+              <i class="fas fa-envelope"></i>
+              {{ site.social.email }}
+            </a>
+          {% endif %}
+          {% if site.github.username %}
+            <a href="https://github.com/{{ site.github.username }}" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i>
+              GitHub
+            </a>
+          {% endif %}
+          {% if site.twitter.username %}
+            <a href="https://twitter.com/{{ site.twitter.username }}" target="_blank" rel="noopener">
+              <i class="fab fa-twitter"></i>
+              Twitter
+            </a>
+          {% endif %}
+          <a href="{{ '/feed.xml' | relative_url }}">
+            <i class="fas fa-rss"></i>
+            RSS 订阅
+          </a>
+        </div>
+      </div>
+
+      {% comment %} Theme & Settings Column {% endcomment %}
+      <div class="landing-footer__settings">
+        <h4 class="landing-footer__title">设置</h4>
+
+        {% unless site.theme_mode %}
+        <button id="footer-theme-toggle" class="landing-footer__theme-btn" aria-label="切换主题">
+          <i class="fas fa-sun" style="display: none;"></i>
+          <i class="fas fa-moon"></i>
+          <span>切换深色/浅色模式</span>
+        </button>
+        {% endunless %}
+
+        <p class="landing-footer__hint">
+          <i class="fas fa-keyboard"></i>
+          按 <kbd>Cmd</kbd>+<kbd>K</kbd> 或 <kbd>Ctrl</kbd>+<kbd>K</kbd> 快速搜索
+        </p>
+      </div>
+
+    </div>
+
+    {% comment %} Bottom Bar {% endcomment %}
+    <div class="landing-footer__bottom">
+      <p class="landing-footer__copyright">
+        © {{ 'now' | date: '%Y' }} {{ site.social.name }}. All rights reserved.
+      </p>
+      <p class="landing-footer__credit">
+        Built with <i class="fas fa-heart" style="color: #ef4444;"></i> using
+        <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> &
+        <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+      </p>
+    </div>
+  </div>
+
+  <style>
+    .landing-footer {
+      padding: 64px 0 32px;
+      background: var(--landing-bg-secondary);
+      border-top: 1px solid var(--landing-border-primary);
+    }
+
+    .landing-footer__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    @media (min-width: 640px) {
+      .landing-footer__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .landing-footer__grid {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+      }
+    }
+
+    .landing-footer__brand {
+      max-width: 300px;
+    }
+
+    .landing-footer__logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      margin-bottom: 16px;
+    }
+
+    .landing-footer__avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .landing-footer__name {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--landing-text-primary);
+    }
+
+    .landing-footer__tagline {
+      font-size: 0.875rem;
+      color: var(--landing-text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+
+    .landing-footer__description {
+      font-size: 0.875rem;
+      color: var(--landing-text-tertiary);
+      line-height: 1.6;
+    }
+
+    .landing-footer__title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--landing-text-primary);
+      margin-bottom: 16px;
+    }
+
+    .landing-footer__links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .landing-footer__links a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: var(--landing-text-secondary);
+      text-decoration: none;
+      padding: 4px 0;
+      transition: color 0.2s;
+    }
+
+    .landing-footer__links a:hover {
+      color: var(--landing-accent);
+    }
+
+    .landing-footer__theme-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--landing-bg-tertiary);
+      border: 1px solid var(--landing-border-primary);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      color: var(--landing-text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .landing-footer__theme-btn:hover {
+      border-color: var(--landing-accent);
+      color: var(--landing-accent);
+    }
+
+    .landing-footer__hint {
+      font-size: 0.75rem;
+      color: var(--landing-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .landing-footer__hint kbd {
+      padding: 2px 6px;
+      background: var(--landing-bg-tertiary);
+      border: 1px solid var(--landing-border-primary);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.75rem;
+    }
+
+    .landing-footer__bottom {
+      padding-top: 32px;
+      border-top: 1px solid var(--landing-border-primary);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .landing-footer__bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+
+    .landing-footer__copyright,
+    .landing-footer__credit {
+      font-size: 0.75rem;
+      color: var(--landing-text-muted);
+    }
+
+    .landing-footer__credit a {
+      color: var(--landing-text-tertiary);
+      text-decoration: none;
+    }
+
+    .landing-footer__credit a:hover {
+      color: var(--landing-accent);
+    }
+  </style>
+
+  <script>
+    // Sync footer theme toggle with header toggle
+    (function() {
+      const footerToggle = document.getElementById('footer-theme-toggle');
+      const headerToggle = document.getElementById('theme-toggle');
+
+      if (footerToggle && headerToggle) {
+        footerToggle.addEventListener('click', function() {
+          headerToggle.click();
+        });
+      }
+    })();
+  </script>
+</footer>

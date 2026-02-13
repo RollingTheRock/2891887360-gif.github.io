@@ -1,0 +1,93 @@
+{% comment %}
+  Navigation Cards Section
+  4 cards in 2x2 grid: Blog, Projects, Design, Videos
+{% endcomment %}
+
+<section class="landing-section" id="content">
+  <div class="landing-content-wrapper">
+    <div class="landing-section-header landing-reveal">
+      <span class="landing-section-header__label">探索</span>
+      <h2 class="landing-section-header__title">从这里开始</h2>
+      <p class="landing-section-header__subtitle">浏览我的创作，了解我的工作和思考</p>
+    </div>
+
+    <div class="landing-grid-4">
+      {% comment %} Blog Card {% endcomment %}
+      <a href="{{ '/blog/' | relative_url }}" class="landing-nav-card landing-reveal landing-reveal--1">
+        <div class="landing-nav-card__icon">📝</div>
+        <h3 class="landing-nav-card__title">技术博客</h3>
+        <p class="landing-nav-card__desc">算法、区块链、架构设计与技术思考</p>
+        <span class="landing-nav-card__arrow">
+          <i class="fas fa-arrow-right"></i>
+        </span>
+      </a>
+
+      {% comment %} Projects Card {% endcomment %}
+      <a href="{{ '/projects/' | relative_url }}" class="landing-nav-card landing-reveal landing-reveal--2">
+        <div class="landing-nav-card__icon">💻</div>
+        <h3 class="landing-nav-card__title">开源项目</h3>
+        <p class="landing-nav-card__desc">个人作品、代码实验与技术实践</p>
+        <span class="landing-nav-card__arrow">
+          <i class="fas fa-arrow-right"></i>
+        </span>
+      </a>
+
+      {% comment %} Design Card {% endcomment %}
+      <a href="{{ '/design/' | relative_url }}" class="landing-nav-card landing-reveal landing-reveal--3">
+        <div class="landing-nav-card__icon">🎨</div>
+        <h3 class="landing-nav-card__title">设计作品</h3>
+        <p class="landing-nav-card__desc">UI设计、海报与创意视觉作品</p>
+        <span class="landing-nav-card__arrow">
+          <i class="fas fa-arrow-right"></i>
+        </span>
+      </a>
+
+      {% comment %} Videos Card {% endcomment %}
+      <a href="{{ '/videos/' | relative_url }}" class="landing-nav-card landing-reveal landing-reveal--4">
+        <div class="landing-nav-card__icon">🎬</div>
+        <h3 class="landing-nav-card__title">视频内容</h3>
+        <p class="landing-nav-card__desc">教程分享、技术解读与知识传播</p>
+        <span class="landing-nav-card__arrow">
+          <i class="fas fa-arrow-right"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <style>
+    .landing-nav-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .landing-nav-card__arrow {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--landing-accent-lighter);
+      color: var(--landing-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .landing-nav-card:hover .landing-nav-card__arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .landing-nav-card__arrow {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</section>

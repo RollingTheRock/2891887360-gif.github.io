@@ -1,0 +1,30 @@
+# 项目数据
+# 用于 /projects 页面展示
+
+- title: "AI Daily Digest"
+  description: "自动抓取 AI 论文并生成日报的邮件系统，支持多数据源聚合（arXiv、HackerNews、GitHub Trends），通过 GitHub Actions 定时触发，使用 DeepSeek API 生成中文摘要。"
+  image: "/assets/img/projects/ai-daily.png"
+  tags: ["Python", "GitHub Actions", "LLM", "Email"]
+  link: "https://github.com/RollingTheRock/ai-daily-digest"
+  github: "https://github.com/RollingTheRock/ai-daily-digest"
+  featured: true
+
+- title: "个人博客主题"
+  description: "基于 Jekyll Chirpy 的自定义主题，融合 Notion 风格与现代极简设计，支持深色模式、响应式布局和流畅的交互动画。"
+  image: "/assets/img/projects/blog-theme.png"
+  tags: ["Jekyll", "SCSS", "JavaScript"]
+  link: "https://2891887360-gif.github.io"
+  github: "https://github.com/RollingTheRock/2891887360-gif.github.io"
+  featured: true
+
+- title: "区块链学习笔记"
+  description: "系统性的区块链学习笔记，涵盖密码学基础、共识机制、智能合约开发等内容，以开源方式分享学习成果。"
+  tags: ["Blockchain", "Solidity", "Notes"]
+  github: "https://github.com/RollingTheRock"
+  featured: false
+
+- title: "算法题解集"
+  description: "LeetCode 算法题解整理，包含详细的思路分析和多种解法对比，帮助理解算法背后的核心思想。"
+  tags: ["Algorithm", "Python", "C++"]
+  github: "https://github.com/RollingTheRock"
+  featured: false

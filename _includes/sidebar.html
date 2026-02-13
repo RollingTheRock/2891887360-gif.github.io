@@ -1,105 +1,167 @@
-<!-- The Side Bar -->
+<!-- The Side Bar - Notion Style -->
 
-<aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end">
-  <header class="profile-wrapper">
-    <a href="{{ '/' | relative_url }}" id="avatar" class="rounded-circle">
-      {%- if site.avatar != empty and site.avatar -%}
-        {%- capture avatar_url -%}
-          {% include media-url.html src=site.avatar %}
-        {%- endcapture -%}
-        <img src="{{- avatar_url -}}" width="112" height="112" alt="avatar" onerror="this.style.display='none'">
-      {%- endif -%}
-    </a>
+<aside aria-label="Sidebar" id="sidebar" class="notion-sidebar">
+  <!-- 用户信息区 -->
+  <header class="sidebar-header">
+    <div class="user-profile">
+      <a href="{{ '/' | relative_url }}" class="user-avatar-large">
+        {%- if site.avatar != empty and site.avatar -%}
+          {%- capture avatar_url -%}
+            {% include media-url.html src=site.avatar %}
+          {%- endcapture -%}
+          <img src="{{- avatar_url -}}" alt="avatar" onerror="this.style.display='none'; this.parentElement.classList.add('fallback')">
+        {%- else -%}
+          <div class="avatar-fallback">王</div>
+        {%- endif -%}
+      </a>
 
-    <a class="site-title d-block" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-    <p class="site-subtitle fst-italic mb-0">{{ site.tagline }}</p>
+      <div class="user-info">
+        <a class="user-name" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+        <p class="user-title">{{ site.tagline }}</p>
+        <p class="user-desc">中南财经政法大学在读<br>AI 创作者</p>
+      </div>
+
+      <!-- 社交链接 -->
+      <div class="social-links">
+        {%- for entry in site.data.contact -%}
+          {%- assign url = null -%}
+          {%- case entry.type -%}
+            {%- when 'github' -%}
+              {%- if site.github.username -%}
+                {%- capture url -%}https://github.com/{{ site.github.username }}{%- endcapture -%}
+              {%- endif -%}
+            {%- when 'twitter' -%}
+              {%- if site.twitter.username -%}
+                {%- capture url -%}https://twitter.com/{{ site.twitter.username }}{%- endcapture -%}
+              {%- endif -%}
+            {%- when 'email' -%}
+              {%- if site.social.email -%}
+                {%- assign email = site.social.email | split: '@' -%}
+                {%- capture url -%}mailto:{{ site.social.email }}{%- endcapture -%}
+              {%- endif -%}
+            {%- when 'rss' -%}
+              {%- assign url = '/feed.xml' | relative_url -%}
+            {%- else -%}
+              {%- assign url = entry.url -%}
+          {%- endcase -%}
+
+          {%- if url -%}
+            <a href="{{ url }}" class="social-link" aria-label="{{ entry.type }}"
+               {% unless entry.noblank %}target="_blank" rel="noopener noreferrer"{% endunless %}>
+              <i class="{{ entry.icon }}"></i>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
   </header>
-  <!-- .profile-wrapper -->
 
-  <nav class="flex-column flex-grow-1 w-100 ps-0">
-    <ul class="nav">
-      <!-- home -->
-      <li class="nav-item{% if page.layout == 'home' %}{{ " active" }}{% endif %}">
-        <a href="{{ '/' | relative_url }}" class="nav-link">
-          <i class="fa-fw fas fa-home"></i>
-          <span>{{ site.data.locales[include.lang].tabs.home | upcase }}</span>
-        </a>
-      </li>
-      <!-- the real tabs -->
+  <!-- 页面树导航 -->
+  <nav class="page-tree" aria-label="Main Navigation">
+    <!-- 主要页面 -->
+    <div class="tree-section">
+      <div class="tree-item{% if page.url == '/blog/' %} active{% endif %}" data-link="{{ '/blog/' | relative_url }}">
+        <i class="fas fa-home"></i>
+        <span>主页</span>
+      </div>
+
       {% for tab in site.tabs %}
-        <li class="nav-item{% if tab.url == page.url %}{{ " active" }}{% endif %}">
-          <a href="{{ tab.url | relative_url }}" class="nav-link">
-            <i class="fa-fw {{ tab.icon }}"></i>
-            {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
-
-            <span>{{ site.data.locales[include.lang].tabs.[tab_name] | default: tab.title | upcase }}</span>
-          </a>
-        </li>
-        <!-- .nav-item -->
+        <div class="tree-item{% if tab.url == page.url %} active{% endif %}" data-link="{{ tab.url | relative_url }}">
+          <i class="{{ tab.icon }}"></i>
+          <span>{{ tab.title }}</span>
+        </div>
       {% endfor %}
-    </ul>
+    </div>
+
+    <!-- 文章分类 -->
+    <div class="tree-section">
+      <div class="tree-section-title">文章</div>
+
+      <!-- 技术分类 -->
+      <div class="tree-item has-children" onclick="toggleTree(this)">
+        <span class="tree-toggle"><i class="fas fa-chevron-down"></i></span>
+        <i class="fas fa-folder"></i>
+        <span>技术</span>
+      </div>
+      <div class="tree-children">
+        <a href="{{ '/categories/算法/' | relative_url }}" class="tree-item child">
+          <i class="fas fa-code"></i>
+          <span>算法竞赛</span>
+        </a>
+        <a href="{{ '/categories/区块链/' | relative_url }}" class="tree-item child">
+          <i class="fas fa-cubes"></i>
+          <span>区块链</span>
+        </a>
+        <a href="{{ '/categories/后端/' | relative_url }}" class="tree-item child">
+          <i class="fas fa-server"></i>
+          <span>软件架构</span>
+        </a>
+      </div>
+
+      <!-- 思想分类 -->
+      <div class="tree-item has-children" onclick="toggleTree(this)">
+        <span class="tree-toggle"><i class="fas fa-chevron-down"></i></span>
+        <i class="fas fa-folder"></i>
+        <span>思想</span>
+      </div>
+      <div class="tree-children">
+        <a href="{{ '/categories/思考/' | relative_url }}" class="tree-item child">
+          <i class="fas fa-brain"></i>
+          <span>哲学思辨</span>
+        </a>
+        <a href="{{ '/tags/维特根斯坦/' | relative_url }}" class="tree-item child">
+          <i class="fas fa-book"></i>
+          <span>维特根斯坦笔记</span>
+        </a>
+      </div>
+
+      <!-- 生活分类 -->
+      <a href="{{ '/categories/生活/' | relative_url }}" class="tree-item">
+        <i class="fas fa-folder"></i>
+        <span>生活随笔</span>
+      </a>
+    </div>
+
+    <!-- 收藏 -->
+    <div class="tree-section">
+      <div class="tree-section-title">收藏</div>
+      <a href="{{ '/tags/' | relative_url }}" class="tree-item">
+        <i class="fas fa-hashtag"></i>
+        <span>标签</span>
+      </a>
+      <a href="{{ '/archives/' | relative_url }}" class="tree-item">
+        <i class="fas fa-archive"></i>
+        <span>归档</span>
+      </a>
+    </div>
   </nav>
 
-  <div class="sidebar-bottom d-flex flex-wrap  align-items-center w-100">
+  <!-- 底部设置 -->
+  <div class="sidebar-footer">
     {% unless site.theme_mode %}
-      <button type="button" class="btn btn-link nav-link" aria-label="Switch Mode" id="mode-toggle">
+      <button type="button" class="mode-toggle" aria-label="Switch Mode" id="mode-toggle">
         <i class="fas fa-adjust"></i>
+        <span>切换主题</span>
       </button>
-
-      {% if site.data.contact.size > 0 %}
-        <span class="icon-border"></span>
-      {% endif %}
     {% endunless %}
-
-    {% for entry in site.data.contact %}
-      {%- assign url = null -%}
-
-      {% case entry.type %}
-        {% when 'github', 'twitter' %}
-          {%- unless site[entry.type].username -%}
-            {%- continue -%}
-          {%- endunless -%}
-          {%- capture url -%}
-            https://{{ entry.type }}.com/{{ site[entry.type].username }}
-          {%- endcapture -%}
-        {% when 'email' %}
-          {%- unless site.social.email -%}
-            {%- continue -%}
-          {%- endunless -%}
-          {%- assign email = site.social.email | split: '@' -%}
-          {%- capture url -%}
-            javascript:location.href = 'mailto:' + ['{{ email[0] }}','{{ email[1] }}'].join('@')
-          {%- endcapture -%}
-        {% when 'rss' %}
-          {% assign url = '/feed.xml' | relative_url %}
-        {% else %}
-          {% assign url = entry.url %}
-      {% endcase %}
-
-      {% if url %}
-        <a
-          href="{{ url }}"
-          aria-label="{{ entry.type }}"
-          {% assign link_types = '' %}
-
-          {% unless entry.noblank %}
-            target="_blank"
-            {% assign link_types = 'noopener noreferrer' %}
-          {% endunless %}
-
-          {% if entry.type == 'mastodon' %}
-            {% assign link_types = link_types | append: ' me' | strip %}
-          {% endif %}
-
-          {% unless link_types == empty %}
-            rel="{{ link_types }}"
-          {% endunless %}
-        >
-          <i class="{{ entry.icon }}"></i>
-        </a>
-      {% endif %}
-    {% endfor %}
   </div>
-  <!-- .sidebar-bottom -->
 </aside>
-<!-- #sidebar -->
+
+<script>
+// 页面树折叠功能
+function toggleTree(element) {
+  const children = element.nextElementSibling;
+  const toggle = element.querySelector('.tree-toggle');
+  if (children && children.classList.contains('tree-children')) {
+    children.classList.toggle('collapsed');
+    toggle.classList.toggle('collapsed');
+  }
+}
+
+// 树项点击跳转
+document.querySelectorAll('.tree-item[data-link]').forEach(item => {
+  item.addEventListener('click', () => {
+    window.location.href = item.dataset.link;
+  });
+});
+</script>

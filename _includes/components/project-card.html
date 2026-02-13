@@ -1,0 +1,93 @@
+{% comment %}
+  Project Card Component
+  Usage: {% include components/project-card.html project=project_variable featured=true/false reveal_delay=number %}
+
+  Required: project (object with title, description, image, tags, link, github)
+  Optional: featured (boolean), reveal_delay (number)
+{% endcomment %}
+
+{% assign project = include.project %}
+{% assign is_featured = include.featured | default: false %}
+{% assign delay = include.reveal_delay | default: 0 %}
+
+{% if is_featured %}
+  {% comment %} Featured Project Card (Large) {% endcomment %}
+  <article class="landing-featured-project landing-reveal landing-reveal--{{ delay }}">
+    <div class="landing-featured-project__image">
+      {% if project.image %}
+        <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" loading="lazy">
+      {% else %}
+        <div class="landing-project-card__placeholder">{{ project.title | slice: 0 }}</div>
+      {% endif %}
+    </div>
+
+    <div class="landing-featured-project__content">
+      <h3 class="landing-featured-project__title">{{ project.title }}</h3>
+      <p class="landing-featured-project__desc">{{ project.description }}</p>
+
+      {% if project.tags %}
+        <div class="landing-project-card__tags">
+          {% for tag in project.tags limit: 4 %}
+            <span class="landing-project-card__tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="landing-featured-project__actions">
+        {% if project.link %}
+          <a href="{{ project.link }}" class="landing-btn landing-btn--primary" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i>
+            访问项目
+          </a>
+        {% endif %}
+        {% if project.github %}
+          <a href="{{ project.github }}" class="landing-btn landing-btn--secondary" target="_blank" rel="noopener"
+003e
+            <i class="fab fa-github"></i>
+            查看源码
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </article>
+
+{% else %}
+  {% comment %} Regular Project Card {% endcomment %}
+  <article class="landing-project-card landing-reveal landing-reveal--{{ delay }}">
+    <div class="landing-project-card__header">
+      {% if project.image %}
+        <div class="landing-project-card__image" style="background-image: url('{{ project.image | relative_url }}');"></div>
+      {% else %}
+        <div class="landing-project-card__placeholder">{{ project.title | slice: 0 }}</div>
+      {% endif %}
+    </div>
+
+    <div class="landing-project-card__body">
+      <h3 class="landing-project-card__title">{{ project.title }}</h3>
+      <p class="landing-project-card__desc">{{ project.description }}</p>
+
+      {% if project.tags %}
+        <div class="landing-project-card__tags">
+          {% for tag in project.tags limit: 3 %}
+            <span class="landing-project-card__tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="landing-project-card__footer">
+      {% if project.link %}
+        <a href="{{ project.link }}" class="landing-project-card__link" target="_blank" rel="noopener">
+          <i class="fas fa-external-link-alt"></i>
+          访问
+        </a>
+      {% endif %}
+      {% if project.github %}
+        <a href="{{ project.github }}" class="landing-project-card__link" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+          源码
+        </a>
+      {% endif %}
+    </div>
+  </article>
+{% endif %}

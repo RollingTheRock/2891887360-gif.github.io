@@ -1,0 +1,118 @@
+---
+layout: landing
+title: 项目
+permalink: /projects/
+---
+
+{% include lang.html %}
+
+{% comment %} Hero Section {% endcomment %}
+{% include landing/hero-simple.html title="开源项目" subtitle="个人作品、代码实验与技术实践" %}
+
+{% comment %} Featured Projects {% endcomment %}
+{% assign featured_projects = site.projects | where: "featured", true %}
+{% if featured_projects.size > 0 %}
+<section class="landing-section landing-bg-secondary">
+  <div class="landing-content-wrapper landing-content-wide">
+    <h2 class="landing-title-2xl landing-mb-8 landing-reveal">
+      <i class="fas fa-star" style="color: var(--landing-accent);"></i>
+      精选项目
+    </h2>
+
+    <div class="landing-flex-col landing-gap-6">
+      {% for project in featured_projects limit: 2 %}
+        {% include components/project-card.html project=project featured=true reveal_delay=forloop.index %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% comment %} All Projects {% endcomment %}
+<section class="landing-section">
+  <div class="landing-content-wrapper landing-content-wide">
+    <div class="landing-flex landing-justify-between landing-items-center landing-mb-8 landing-reveal">
+      <h2 class="landing-title-2xl">
+        <i class="fas fa-folder-open" style="color: var(--landing-accent);"></i>
+        全部项目
+      </h2>
+
+      {% comment %} Filter buttons {% endcomment %}
+      <div class="landing-hidden-sm">
+        <button class="landing-btn landing-btn--ghost is-active" data-filter="all">全部</button>
+        <button class="landing-btn landing-btn--ghost" data-filter="featured">精选</button>
+      </div>
+    </div>
+
+    {% assign all_projects = site.projects | sort: "date" | reverse %}
+    {% if all_projects.size > 0 %}
+      <div class="landing-grid-3" id="projects-grid">
+        {% for project in all_projects %}
+          <a href="{{ project.url | relative_url }}" class="landing-project-card landing-reveal landing-reveal--{{ forloop.index | modulo: 6 }}" data-featured="{{ project.featured }}">
+            <div class="landing-project-card__header">
+              {% if project.image %}
+                <div class="landing-project-card__image" style="background-image: url('{{ project.image | relative_url }}');"></div>
+              {% else %}
+                <div class="landing-project-card__placeholder">{{ project.title | slice: 0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="landing-project-card__body">
+              <h3 class="landing-project-card__title">{{ project.title }}</h3>
+              <p class="landing-project-card__desc">{{ project.description | truncate: 100 }}</p>
+
+              {% if project.tech %}
+                <div class="landing-project-card__tags">
+                  {% for tech in project.tech limit: 3 %}
+                    <span class="landing-project-card__tag">{{ tech }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="landing-project-card__footer">
+              <span class="landing-project-card__link">
+                <i class="fas fa-arrow-right"></i>
+                查看详情
+              </span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      {% comment %} Empty State {% endcomment %}
+      <div class="landing-center landing-py-16 landing-reveal">
+        <div style="font-size: 64px; margin-bottom: 16px;">🚧</div>
+        <h3 class="landing-title-xl landing-mb-4">项目整理中</h3>
+        <p class="landing-text-secondary">正在整理项目列表，敬请期待...</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+// Simple filter functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const filterButtons = document.querySelectorAll('[data-filter]');
+  const projectCards = document.querySelectorAll('#projects-grid > a');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+
+      // Update active button
+      filterButtons.forEach(btn => btn.classList.remove('is-active'));
+      button.classList.add('is-active');
+
+      // Filter projects
+      projectCards.forEach(card => {
+        if (filter === 'all' || card.dataset.featured === 'true') {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>

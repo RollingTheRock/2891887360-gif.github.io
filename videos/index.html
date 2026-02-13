@@ -1,0 +1,86 @@
+---
+layout: landing
+title: 视频
+permalink: /videos/
+---
+
+{% include lang.html %}
+
+{% comment %} Hero Section {% endcomment %}
+{% include landing/hero-simple.html title="视频内容" subtitle="教程分享、技术解读、知识传播" %}
+
+{% comment %} Videos Grid {% endcomment %}
+{% assign all_videos = site.videos | sort: "date" | reverse %}
+
+<section class="landing-section">
+  <div class="landing-content-wrapper landing-content-wide">
+    {% if all_videos.size > 0 %}
+      <div class="landing-grid-2" id="videos-grid">
+        {% for video in all_videos %}
+          <article class="landing-video-card landing-reveal landing-reveal--{{ forloop.index | modulo: 4 }}">
+            <div class="landing-video-card__thumbnail">
+              {% if video.thumbnail %}
+                <img src="{{ video.thumbnail | relative_url }}" alt="{{ video.title }}" loading="lazy">
+              {% else %}
+                <div class="landing-video-card__placeholder" style="background: {{ video.color | default: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}">
+                  <span class="landing-video-card__platform-icon">
+                    {% if video.platform == 'bilibili' %}📺{% elsif video.platform == 'youtube' %}▶️{% else %}🎬{% endif %}
+                  </span>
+                </div>
+              {% endif %}
+
+              <a href="{{ video.url | relative_url }}" class="landing-video-card__play-btn">
+                <span class="landing-video-card__play-icon">▶</span>
+              </a>
+
+              <span class="landing-video-card__platform">
+                {% if video.platform == 'bilibili' %}
+                  <i class="fas fa-tv"></i> B站
+                {% elsif video.platform == 'youtube' %}
+                  <i class="fab fa-youtube"></i> YouTube
+                {% else %}
+                  <i class="fas fa-video"></i> 视频
+                {% endif %}
+              </span>
+
+              {% if video.duration %}
+                <span class="landing-video-card__duration">{{ video.duration }}</span>
+              {% endif %}
+            </div>
+
+            <div class="landing-video-card__info">
+              <h3 class="landing-video-card__title">
+                <a href="{{ video.url | relative_url }}" style="color: inherit; text-decoration: none;">{{ video.title }}</a>
+              </h3>
+              {% if video.description %}
+                <p class="landing-video-card__desc">{{ video.description | truncate: 120 }}</p>
+              {% endif %}
+
+              <div class="landing-video-card__meta">
+                {% if video.date %}
+                  <span>
+                    <i class="far fa-calendar"></i>
+                    {{ video.date | date: "%Y-%m-%d" }}
+                  </span>
+                {% endif %}
+                {% if video.views %}
+                  <span>
+                    <i class="far fa-eye"></i>
+                    {{ video.views }}
+                  </span>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      {% comment %} Empty State {% endcomment %}
+      <div class="landing-center landing-py-16 landing-reveal">
+        <div style="font-size: 64px; margin-bottom: 16px;">🎬</div>
+        <h3 class="landing-title-xl landing-mb-4">视频整理中</h3>
+        <p class="landing-text-secondary">正在整理视频内容，敬请期待...</p>
+      </div>
+    {% endif %}
+  </div>
+</section>

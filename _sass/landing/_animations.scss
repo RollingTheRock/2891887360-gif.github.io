@@ -1,0 +1,364 @@
+// ============================================
+// Every.to Style Design System - Animations
+// ============================================
+
+@use 'variables' as *;
+
+// ----------------------------------------
+// Fade In Up (main entrance animation)
+// ----------------------------------------
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// ----------------------------------------
+// Scroll Reveal Animations
+// ----------------------------------------
+
+// Generic reveal class (used by landing.js)
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+
+  @include motion-reduce {
+    opacity: 1;
+    transform: none;
+  }
+
+  @include motion-safe {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+    &.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// Legacy landing-reveal class (backward compatibility)
+.landing-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+
+  @include motion-reduce {
+    opacity: 1;
+    transform: none;
+  }
+
+  @include motion-safe {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+    &.is-visible,
+    &.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// Stagger delays
+.reveal--1,
+.landing-reveal--1 { transition-delay: 0.1s; }
+.reveal--2,
+.landing-reveal--2 { transition-delay: 0.2s; }
+.reveal--3,
+.landing-reveal--3 { transition-delay: 0.3s; }
+.reveal--4,
+.landing-reveal--4 { transition-delay: 0.4s; }
+.reveal--5,
+.landing-reveal--5 { transition-delay: 0.5s; }
+.reveal--6,
+.landing-reveal--6 { transition-delay: 0.6s; }
+
+// ----------------------------------------
+// Stagger Children Animation
+// ----------------------------------------
+
+.stagger-children {
+  > * {
+    opacity: 0;
+    transform: translateY(20px);
+
+    @include motion-reduce {
+      opacity: 1;
+      transform: none;
+    }
+
+    @include motion-safe {
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    &.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// ----------------------------------------
+// Float Animation (for decorative elements)
+// ----------------------------------------
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.landing-float {
+  @include motion-safe {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+// ----------------------------------------
+// Pulse Animation
+// ----------------------------------------
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.landing-pulse {
+  @include motion-safe {
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
+// ----------------------------------------
+// Gradient Animation (for borders/backgrounds)
+// ----------------------------------------
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.landing-gradient-animated {
+  background-size: 200% 200%;
+
+  @include motion-safe {
+    animation: gradientShift 8s ease infinite;
+  }
+}
+
+// ----------------------------------------
+// Card Hover Animation
+// ----------------------------------------
+
+.landing-card-hover {
+  @include motion-safe {
+    transition: transform $transition-slow, box-shadow $transition-slow;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--landing-shadow-lg);
+    }
+  }
+}
+
+// ----------------------------------------
+// Link Underline Animation
+// ----------------------------------------
+
+.landing-link-animated {
+  position: relative;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--landing-gradient-border);
+    background-size: 200% auto;
+
+    @include motion-safe {
+      transition: width $transition-base;
+    }
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+// ----------------------------------------
+// Scale on Hover
+// ----------------------------------------
+
+.landing-scale-hover {
+  @include motion-safe {
+    transition: transform $transition-base;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// ----------------------------------------
+// Navigation Scroll State
+// ----------------------------------------
+
+.landing-nav-scrolled {
+  background: rgba(var(--landing-bg-primary), 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--landing-shadow-sm);
+}
+
+// ----------------------------------------
+// Reduced Motion Support
+// ----------------------------------------
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ----------------------------------------
+// Loading Skeleton
+// ----------------------------------------
+
+@keyframes skeletonLoading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.landing-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--landing-bg-tertiary) 25%,
+    var(--landing-border-primary) 50%,
+    var(--landing-bg-tertiary) 75%
+  );
+  background-size: 200px 100%;
+  animation: skeletonLoading 1.5s ease-in-out infinite;
+}
+
+// ----------------------------------------
+// Shake Animation (for errors)
+// ----------------------------------------
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+.landing-shake {
+  @include motion-safe {
+    animation: shake 0.5s ease-in-out;
+  }
+}
+
+// ----------------------------------------
+// Spin Animation
+// ----------------------------------------
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.landing-spin {
+  @include motion-safe {
+    animation: spin 1s linear infinite;
+  }
+}
+
+// ----------------------------------------
+// Bounce Animation
+// ----------------------------------------
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.landing-bounce {
+  @include motion-safe {
+    animation: bounce 2s ease-in-out infinite;
+  }
+}

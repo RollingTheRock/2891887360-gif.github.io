@@ -1,0 +1,317 @@
+{% comment %}
+  Share Buttons Component
+  Usage: {% include components/share-buttons.html title=page.title url=page.url %}
+
+  Required: title, url
+  Optional: description
+{% endcomment %}
+
+{% assign share_title = include.title | default: page.title | url_encode %}
+{% assign share_url = include.url | default: page.url | absolute_url | url_encode %}
+{% assign share_description = include.description | default: page.description | default: site.description | url_encode %}
+
+<div class="share-buttons">
+  <span class="share-buttons__label">分享：</span>
+
+  <div class="share-buttons__group">
+    {% comment %} Twitter/X {% endcomment %}
+    <a
+      href="https://twitter.com/intent/tweet?url={{ share_url }}&text={{ share_title }}"
+      class="share-buttons__btn share-buttons__btn--twitter"
+      target="_blank"
+      rel="noopener"
+      aria-label="分享到 Twitter"
+      title="分享到 Twitter"
+    >
+      <i class="fab fa-x-twitter"></i>
+    </a>
+
+    {% comment %} LinkedIn {% endcomment %}
+    <a
+      href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url }}"
+      class="share-buttons__btn share-buttons__btn--linkedin"
+      target="_blank"
+      rel="noopener"
+      aria-label="分享到 LinkedIn"
+      title="分享到 LinkedIn"
+    >
+      <i class="fab fa-linkedin-in"></i>
+    </a>
+
+    {% comment %} 微博 {% endcomment %}
+    <a
+      href="https://service.weibo.com/share/share.php?url={{ share_url }}&title={{ share_title }}&pic={{ site.avatar | absolute_url }}"
+      class="share-buttons__btn share-buttons__btn--weibo"
+      target="_blank"
+      rel="noopener"
+      aria-label="分享到微博"
+      title="分享到微博"
+    >
+      <i class="fab fa-weibo"></i>
+    </a>
+
+    {% comment %} 微信 - opens QR modal {% endcomment %}
+    <button
+      class="share-buttons__btn share-buttons__btn--wechat"
+      aria-label="分享到微信"
+      title="分享到微信"
+      onclick="showWechatQR('{{ share_url }}')"
+    >
+      <i class="fab fa-weixin"></i>
+    </button>
+
+    {% comment %} 复制链接 {% endcomment %}
+    <button
+      class="share-buttons__btn share-buttons__btn--copy"
+      aria-label="复制链接"
+      title="复制链接"
+      onclick="copyToClipboard('{{ share_url | absolute_url }}', this)"
+    >
+      <i class="fas fa-link"></i>
+    </button>
+  </div>
+</div>
+
+{% comment %} WeChat QR Modal {% endcomment %}
+<div id="wechat-modal" class="wechat-modal">
+  <div class="wechat-modal__backdrop" onclick="closeWechatQR()"></div>
+  <div class="wechat-modal__content">
+    <button class="wechat-modal__close" onclick="closeWechatQR()" aria-label="关闭">
+      <i class="fas fa-times"></i>
+    </button>
+    <h4>分享到微信</h4>
+    <div id="wechat-qrcode"></div>
+    <p class="wechat-modal__hint">打开微信，使用扫一扫分享</p>
+  </div>
+</div>
+
+<style>
+  .share-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .share-buttons__label {
+    font-size: 14px;
+    color: var(--landing-text-muted);
+  }
+
+  .share-buttons__group {
+    display: flex;
+    gap: 8px;
+  }
+
+  .share-buttons__btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .share-buttons__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .share-buttons__btn--twitter {
+    background: #000000;
+  }
+
+  .share-buttons__btn--linkedin {
+    background: #0077b5;
+  }
+
+  .share-buttons__btn--weibo {
+    background: #e6162d;
+  }
+
+  .share-buttons__btn--wechat {
+    background: #07c160;
+  }
+
+  .share-buttons__btn--copy {
+    background: var(--landing-text-muted);
+  }
+
+  /* WeChat Modal */
+  .wechat-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .wechat-modal.is-active {
+    display: flex;
+  }
+
+  .wechat-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .wechat-modal__content {
+    position: relative;
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    text-align: center;
+    z-index: 1;
+    max-width: 320px;
+    width: 100%;
+  }
+
+  [data-mode="dark"] .wechat-modal__content {
+    background: #1a1a1a;
+  }
+
+  .wechat-modal__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--landing-text-muted);
+    font-size: 16px;
+  }
+
+  .wechat-modal h4 {
+    margin: 0 0 20px;
+    font-size: 18px;
+    color: var(--landing-text-primary);
+  }
+
+  #wechat-qrcode {
+    margin-bottom: 16px;
+  }
+
+  #wechat-qrcode img,
+  #wechat-qrcode canvas {
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+  }
+
+  .wechat-modal__hint {
+    margin: 0;
+    font-size: 14px;
+    color: var(--landing-text-muted);
+  }
+
+  /* Toast notification */
+  .copy-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background: var(--landing-text-primary);
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 1001;
+    animation: fadeInUp 0.3s ease;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+<script>
+  // Copy to clipboard
+  function copyToClipboard(text, btn) {
+    navigator.clipboard.writeText(text).then(function() {
+      // Show toast
+      const toast = document.createElement('div');
+      toast.className = 'copy-toast';
+      toast.textContent = '链接已复制到剪贴板';
+      document.body.appendChild(toast);
+
+      // Change icon temporarily
+      const icon = btn.querySelector('i');
+      const originalClass = icon.className;
+      icon.className = 'fas fa-check';
+
+      setTimeout(function() {
+        toast.remove();
+        icon.className = originalClass;
+      }, 2000);
+    }).catch(function() {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+
+      const toast = document.createElement('div');
+      toast.className = 'copy-toast';
+      toast.textContent = '链接已复制';
+      document.body.appendChild(toast);
+      setTimeout(function() { toast.remove(); }, 2000);
+    });
+  }
+
+  // WeChat QR Modal
+  function showWechatQR(url) {
+    const modal = document.getElementById('wechat-modal');
+    const qrcodeContainer = document.getElementById('wechat-qrcode');
+
+    // Clear previous QR code
+    qrcodeContainer.innerHTML = '';
+
+    // Generate new QR code
+    new QRCode(qrcodeContainer, {
+      text: decodeURIComponent(url),
+      width: 200,
+      height: 200,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+
+    modal.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeWechatQR() {
+    const modal = document.getElementById('wechat-modal');
+    modal.classList.remove('is-active');
+    document.body.style.overflow = '';
+  }
+
+  // Close modal on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeWechatQR();
+    }
+  });
+</script>

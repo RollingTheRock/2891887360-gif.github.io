@@ -1,4 +1,20 @@
 ---
-layout: home
-# Index page
+layout: landing
+title: 王若如 - 个人门户网站
+description: 王若如的个人门户网站 - 技术，思想，生活。区块链研究者，算法爱好者，哲学思考者。
 ---
+
+{% include lang.html %}
+
+{% comment %}
+  Landing Page Composition
+  Each section is a reusable component
+{% endcomment %}
+
+{% include landing/hero.html %}
+
+{% include landing/nav-cards.html %}
+
+{% include landing/featured.html %}
+
+{% comment %} Optional: Add newsletter or contact CTA section here {% endcomment %}

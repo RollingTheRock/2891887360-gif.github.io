@@ -1,0 +1,270 @@
+---
+layout: landing
+---
+
+{% include lang.html %}
+
+{% comment %} Video Modal for Embed {% endcomment %}
+<div id="video-modal" class="video-modal">
+  <div class="video-modal__backdrop"></div>
+  <div class="video-modal__content">
+    <button class="video-modal__close" aria-label="关闭">
+      <i class="fas fa-times"></i>
+    </button>
+    <div class="video-modal__player">
+      <iframe id="video-iframe" src="" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+// Video Modal
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('video-modal');
+  const iframe = document.getElementById('video-iframe');
+  const closeBtn = modal.querySelector('.video-modal__close');
+  const backdrop = modal.querySelector('.video-modal__backdrop');
+
+  function openModal(videoId, platform) {
+    let embedUrl = '';
+    if (platform === 'bilibili') {
+      embedUrl = `https://player.bilibili.com/player.html?bvid=${videoId}&autoplay=1&danmaku=0`;
+    } else if (platform === 'youtube') {
+      embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    }
+
+    if (embedUrl) {
+      iframe.src = embedUrl;
+      modal.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-active');
+    iframe.src = '';
+    document.body.style.overflow = '';
+  }
+
+  // Auto-open if has video_id
+  {% if page.video_id and page.platform %}
+    setTimeout(() => {
+      openModal('{{ page.video_id }}', '{{ page.platform }}');
+    }, 500);
+  {% endif %}
+
+  // Watch button
+  const watchBtn = document.getElementById('watch-video-btn');
+  if (watchBtn) {
+    watchBtn.addEventListener('click', () => {
+      openModal('{{ page.video_id }}', '{{ page.platform }}');
+    });
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+      closeModal();
+    }
+  });
+});
+</script>
+
+{% comment %} Back Button {% endcomment %}
+<div class="landing-content-wrapper" style="padding-top: calc(var(--landing-nav-height) + 24px);">
+  <a href="{{ '/videos/' | relative_url }}" class="landing-link landing-mb-4" style="display: inline-flex; align-items: center; gap: 8px;">
+    <i class="fas fa-arrow-left"></i>
+    返回视频列表
+  </a>
+</div>
+
+{% comment %} Video Header {% endcomment %}
+<section class="landing-section-sm">
+  <div class="landing-content-wrapper landing-content-wide">
+    <div class="landing-reveal">
+      {% comment %} Platform Badge {% endcomment %}
+      <div class="landing-flex landing-gap-4 landing-mb-4">
+        <span class="landing-tag">
+          {% if page.platform == 'bilibili' %}
+            <i class="fas fa-tv"></i> Bilibili
+          {% elsif page.platform == 'youtube' %}
+            <i class="fab fa-youtube"></i> YouTube
+          {% else %}
+            <i class="fas fa-video"></i> 视频
+          {% endif %}
+        </span>
+        {% if page.date %}
+          <span class="landing-text-muted landing-text-sm" style="display: flex; align-items: center;">
+            <i class="far fa-calendar"></i>
+            {{ page.date | date: "%Y年%m月%d日" }}
+          </span>
+        {% endif %}
+        {% if page.duration %}
+          <span class="landing-text-muted landing-text-sm" style="display: flex; align-items: center;">
+            <i class="far fa-clock"></i>
+            {{ page.duration }}
+          </span>
+        {% endif %}
+      </div>
+
+      <h1 class="landing-title-4xl landing-mb-6">{{ page.title }}</h1>
+
+      {% if page.description %}
+        <p class="landing-text-xl landing-text-secondary landing-mb-8">{{ page.description }}</p>
+      {% endif %}
+
+      {% comment %} Thumbnail with Play Button {% endcomment %}
+      <div style="position: relative; width: 100%; border-radius: 16px; overflow: hidden; margin-bottom: 48px; box-shadow: var(--landing-shadow-lg);">
+        {% if page.thumbnail %}
+          <img src="{{ page.thumbnail | relative_url }}" alt="{{ page.title }}" style="width: 100%; height: auto; display: block;">
+        {% else %}
+          <div style="width: 100%; aspect-ratio: 16/9; background: {{ page.color | default: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}; display: flex; align-items: center; justify-content: center;">
+            <span style="font-size: 64px;">🎬</span>
+          </div>
+        {% endif %}
+
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3);">
+          <button id="watch-video-btn" class="landing-btn" style="padding: 16px 32px; font-size: 18px; background: rgba(255,255,255,0.95); color: #333; border: none;">
+            <i class="fas fa-play"></i>
+            立即播放
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} Video Content {% endcomment %}
+    <div class="landing-reveal landing-text-base" style="line-height: 1.8;">
+      {{ content }}
+    </div>
+
+    {% comment %} Tags {% endcomment %}
+    {% if page.tags %}
+      <div class="landing-mt-8 landing-pt-8" style="border-top: 1px solid var(--landing-border-primary);">
+        <h3 class="landing-title-lg landing-mb-4">标签</h3>
+        <div class="landing-tags landing-justify-start">
+          {% for tag in page.tags %}
+            <span class="landing-tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% comment %} External Link {% endcomment %}
+    {% if page.video_id %}
+      <div class="landing-mt-8">
+        {% if page.platform == 'bilibili' %}
+          <a href="https://www.bilibili.com/video/{{ page.video_id }}" class="landing-btn landing-btn--secondary" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i>
+            在 Bilibili 上观看
+          </a>
+        {% elsif page.platform == 'youtube' %}
+          <a href="https://www.youtube.com/watch?v={{ page.video_id }}" class="landing-btn landing-btn--secondary" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i>
+            在 YouTube 上观看
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} Share Buttons {% endcomment %}
+    <div class="landing-mt-8 landing-reveal">
+      {% include components/share-buttons.html title=page.title url=page.url %}
+    </div>
+
+    {% comment %} Navigation {% endcomment %}
+    <div class="landing-flex landing-justify-between landing-mt-12 landing-pt-8" style="border-top: 1px solid var(--landing-border-primary);">
+      {% if page.previous %}
+        <a href="{{ page.previous.url | relative_url }}" class="landing-link" style="text-align: left;">
+          <small style="display: block; color: var(--landing-text-muted); margin-bottom: 4px;">上一个视频</small>
+          <span><i class="fas fa-arrow-left"></i> {{ page.previous.title }}</span>
+        </a>
+      {% else %}
+        <span></span>
+      {% endif %}
+
+      {% if page.next %}
+        <a href="{{ page.next.url | relative_url }}" class="landing-link" style="text-align: right;">
+          <small style="display: block; color: var(--landing-text-muted); margin-bottom: 4px;">下一个视频</small>
+          <span>{{ page.next.title }} <i class="fas fa-arrow-right"></i></span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<style>
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.video-modal.is-active {
+  display: flex;
+}
+
+.video-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+}
+
+.video-modal__content {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  z-index: 1;
+}
+
+.video-modal__close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.video-modal__close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.video-modal__player {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.video-modal__player iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .video-modal {
+    padding: 20px;
+  }
+
+  .video-modal__close {
+    top: -40px;
+  }
+}
+</style>

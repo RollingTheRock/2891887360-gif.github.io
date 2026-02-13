@@ -1,36 +1,27 @@
 ---
 layout: default
+title: 博客
+permalink: /blog/
 ---
 
 {% include lang.html %}
 
-<!-- 首页 Hero 区域 -->
-<section class="notion-hero">
-  <div class="hero-cover" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);">
-    <div class="hero-content">
-      <h1 class="hero-title">{{ site.title }}</h1>
-      <p class="hero-subtitle">{{ site.tagline }}</p>
-    </div>
-  </div>
-</section>
-
-<!-- 简介区域 -->
-<section class="notion-section">
-  <div class="notion-callout blue">
-    <div class="callout-icon">👋</div>
-    <div class="callout-content">
-      <p>你好，我是<strong>王若如</strong>，中南财经政法大学在读。</p>
-      <p>白天研究区块链，晚上刷算法题，凌晨思考维特根斯坦到底在说什么（至今没想明白）。</p>
-      <p>一个试图在技术深度和人生广度之间找平衡的人。</p>
-    </div>
+<!-- 页面标题 -->
+<section class="page-header">
+  <div class="page-header-content">
+    <h1 class="page-title">
+      <span class="title-icon">📝</span>
+      博客
+    </h1>
+    <p class="page-subtitle">技术文章、思考随笔、生活记录</p>
   </div>
 </section>
 
 <!-- 文章列表 - Notion 数据库风格 -->
 <section class="notion-section">
   <h2 class="section-title">
-    <span class="section-icon">📝</span>
-    最新文章
+    <span class="section-icon">📄</span>
+    全部文章
   </h2>
 
   <div class="notion-database">
@@ -95,11 +86,11 @@ layout: default
   {% endif %}
 </section>
 
-<!-- 分类入口 -->
+<!-- 分类浏览 -->
 <section class="notion-section">
   <h2 class="section-title">
     <span class="section-icon">📂</span>
-    分类浏览
+    按分类浏览
   </h2>
 
   <div class="category-grid">
@@ -129,9 +120,49 @@ layout: default
   </div>
 </section>
 
-<!-- 引用 -->
-<section class="notion-section">
-  <blockquote class="notion-quote">
-    "语言的边界就是世界的边界。" —— 维特根斯坦
-  </blockquote>
-</section>
+<!-- 页面头部样式 -->
+<style>
+.page-header {
+  margin: -24px -24px 40px;
+  padding: 60px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  color: white;
+  text-align: center;
+}
+
+.page-header-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.title-icon {
+  font-size: 32px;
+}
+
+.page-subtitle {
+  font-size: 18px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    margin: -16px -16px 32px;
+    padding: 40px 16px;
+  }
+
+  .page-title {
+    font-size: 28px;
+  }
+}
+</style>

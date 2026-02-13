@@ -1,0 +1,96 @@
+---
+layout: landing
+title: 设计
+permalink: /design/
+---
+
+{% include lang.html %}
+
+{% comment %} Hero Section {% endcomment %}
+{% include landing/hero-simple.html title="设计作品" subtitle="UI设计、海报、创意视觉作品" %}
+
+{% comment %} Filter Categories {% endcomment %}
+{% assign all_designs = site.designs %}
+{% assign categories = all_designs | map: "category" | uniq %}
+
+<section class="landing-section-sm">
+  <div class="landing-content-wrapper">
+    <div class="landing-center landing-mb-8 landing-reveal">
+      <div class="landing-flex landing-gap-2 landing-flex-wrap landing-justify-center">
+        <button class="landing-btn landing-btn--ghost is-active" data-filter="all">全部</button>
+        <button class="landing-btn landing-btn--ghost" data-filter="ui">UI设计</button>
+        <button class="landing-btn landing-btn--ghost" data-filter="poster">海报</button>
+        <button class="landing-btn landing-btn--ghost" data-filter="illustration">插画</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% comment %} Designs Grid {% endcomment %}
+<section class="landing-section">
+  <div class="landing-content-wrapper landing-content-wide">
+    {% if all_designs.size > 0 %}
+      <div class="landing-grid-3" id="designs-grid">
+        {% for design in all_designs %}
+          <a href="{{ design.url | relative_url }}" class="landing-design-card landing-reveal landing-reveal--{{ forloop.index | modulo: 6 }}" data-category="{{ design.category }}">
+            <div class="landing-design-card__image">
+              {% if design.image %}
+                <img src="{{ design.image | relative_url }}" alt="{{ design.title }}" loading="lazy">
+              {% else %}
+                <div class="landing-design-card__placeholder" style="background: {{ design.color | default: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}">
+                  <span>{{ design.title | slice: 0, 2 }}</span>
+                </div>
+              {% endif %}
+
+              <div class="landing-design-card__overlay">
+                <span class="landing-design-card__view-btn">
+                  <i class="fas fa-expand"></i>
+                  查看详情
+                </span>
+              </div>
+            </div>
+
+            <div class="landing-design-card__info">
+              <h3 class="landing-design-card__title">{{ design.title }}</h3>
+              <span class="landing-design-card__category">{{ design.category | default: "设计" }}</span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      {% comment %} Empty State {% endcomment %}
+      <div class="landing-center landing-py-16 landing-reveal">
+        <div style="font-size: 64px; margin-bottom: 16px;">🎨</div>
+        <h3 class="landing-title-xl landing-mb-4">作品整理中</h3>
+        <p class="landing-text-secondary">正在整理设计作品集，敬请期待...</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+// Filter functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const filterButtons = document.querySelectorAll('[data-filter]');
+  const designCards = document.querySelectorAll('#designs-grid > a');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+
+      // Update active button
+      filterButtons.forEach(btn => btn.classList.remove('is-active'));
+      button.classList.add('is-active');
+
+      // Filter designs
+      designCards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>

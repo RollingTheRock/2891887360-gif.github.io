@@ -1,0 +1,16 @@
+{% comment %}
+  Simple Hero Section for Sub-pages
+  Usage: {% include landing/hero-simple.html title="Page Title" subtitle="Page description" %}
+{% endcomment %}
+
+{% assign hero_title = include.title | default: page.title %}
+{% assign hero_subtitle = include.subtitle | default: page.description %}
+
+<section class="landing-hero landing-hero--small">
+  <div class="landing-hero__container">
+    <h1 class="landing-hero__title">{{ hero_title }}</h1>
+    {% if hero_subtitle %}
+      <p class="landing-hero__subtitle">{{ hero_subtitle }}</p>
+    {% endif %}
+  </div>
+</section>

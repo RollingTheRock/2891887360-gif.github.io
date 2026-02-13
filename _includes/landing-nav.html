@@ -1,0 +1,283 @@
+{% include lang.html %}
+
+<nav
+  id="landing-nav"
+  class="landing-nav"
+  aria-label="Main Navigation"
+>
+  <div class="landing-nav__container">
+    {% comment %} Logo {% endcomment %}
+    <a href="{{ '/' | relative_url }}" class="landing-nav__logo">
+      <img
+        src="{{ site.avatar | relative_url }}"
+        alt="{{ site.social.name }}"
+        class="landing-nav__avatar"
+      >
+      <span class="landing-nav__brand">{{ site.social.name }}</span>
+    </a>
+
+    {% comment %} Desktop Navigation {% endcomment %}
+    <div class="landing-nav__links">
+      <a
+        href="{{ '/blog/' | relative_url }}"
+        class="landing-nav__link{% if page.url == '/blog/' %} is-active{% endif %}"
+      >
+        博客
+      </a>
+      <a
+        href="{{ '/projects/' | relative_url }}"
+        class="landing-nav__link{% if page.url == '/projects/' %} is-active{% endif %}"
+      >
+        项目
+      </a>
+      <a
+        href="{{ '/design/' | relative_url }}"
+        class="landing-nav__link{% if page.url == '/design/' %} is-active{% endif %}"
+      >
+        设计
+      </a>
+      <a
+        href="{{ '/videos/' | relative_url }}"
+        class="landing-nav__link{% if page.url == '/videos/' %} is-active{% endif %}"
+      >
+        视频
+      </a>
+      <a
+        href="{{ '/about/' | relative_url }}"
+        class="landing-nav__link{% if page.url == '/about/' %} is-active{% endif %}"
+      >
+        关于
+      </a>
+    </div>
+
+    {% comment %} Actions {% endcomment %}
+    <div class="landing-nav__actions">
+      {% unless site.theme_mode %}
+        <button
+          id="theme-toggle"
+          class="landing-nav__theme-btn"
+          aria-label="Toggle theme"
+        >
+          <i class="fas fa-sun" style="display: none;"></i>
+          <i class="fas fa-moon"></i>
+        </button>
+      {% endunless %}
+
+      {% comment %} Mobile Menu Toggle {% endcomment %}
+      <button
+        id="mobile-menu-toggle"
+        class="landing-nav__menu-btn"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  {% comment %} Mobile Menu {% endcomment %}
+  <div id="mobile-menu" class="landing-nav__mobile-menu">
+    <a href="{{ '/blog/' | relative_url }}" class="landing-nav__mobile-link">博客</a>
+    <a href="{{ '/projects/' | relative_url }}" class="landing-nav__mobile-link">项目</a>
+    <a href="{{ '/design/' | relative_url }}" class="landing-nav__mobile-link">设计</a>
+    <a href="{{ '/videos/' | relative_url }}" class="landing-nav__mobile-link">视频</a>
+    <a href="{{ '/about/' | relative_url }}" class="landing-nav__mobile-link">关于</a>
+  </div>
+</nav>
+
+<style>
+  /* Landing Nav Styles - Using design system variables */
+  .landing-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: var(--landing-nav-height, 72px);
+    background: transparent;
+    transition: background var(--transition-base, 0.2s), box-shadow var(--transition-base, 0.2s);
+  }
+
+  .landing-nav.landing-nav-scrolled {
+    background: var(--landing-bg-primary);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--landing-shadow-sm);
+  }
+
+  [data-mode="dark"] .landing-nav.landing-nav-scrolled {
+    background: rgba(10, 10, 10, 0.95);
+  }
+
+  .landing-nav__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .landing-nav__logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--landing-text-primary);
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .landing-nav__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--landing-border-primary);
+  }
+
+  .landing-nav__brand {
+    background: var(--landing-gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .landing-nav__links {
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media (min-width: 768px) {
+    .landing-nav__links {
+      display: flex;
+    }
+  }
+
+  .landing-nav__link {
+    padding: 8px 16px;
+    border-radius: 9999px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--landing-text-secondary);
+    text-decoration: none;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .landing-nav__link:hover {
+    color: var(--landing-text-primary);
+    background: var(--landing-accent-lighter);
+  }
+
+  .landing-nav__link.is-active {
+    color: var(--landing-accent);
+    background: var(--landing-accent-lighter);
+  }
+
+  .landing-nav__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .landing-nav__theme-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--landing-border-primary);
+    background: var(--landing-bg-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--landing-text-primary);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .landing-nav__theme-btn:hover {
+    border-color: var(--landing-accent);
+    color: var(--landing-accent);
+  }
+
+  .landing-nav__menu-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  @media (min-width: 768px) {
+    .landing-nav__menu-btn {
+      display: none;
+    }
+  }
+
+  .landing-nav__menu-btn span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--landing-text-primary);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .landing-nav__menu-btn.is-active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .landing-nav__menu-btn.is-active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .landing-nav__menu-btn.is-active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  .landing-nav__mobile-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--landing-bg-secondary);
+    border-bottom: 1px solid var(--landing-border-primary);
+    padding: 16px;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .landing-nav__mobile-menu.is-active {
+    display: flex;
+  }
+
+  @media (min-width: 768px) {
+    .landing-nav__mobile-menu {
+      display: none !important;
+    }
+  }
+
+  .landing-nav__mobile-link {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--landing-text-primary);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .landing-nav__mobile-link:hover {
+    background: var(--landing-accent-lighter);
+  }
+</style>

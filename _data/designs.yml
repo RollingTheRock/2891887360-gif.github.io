@@ -1,0 +1,20 @@
+# 设计作品数据
+# 用于 /design 页面展示
+
+# 示例数据格式：
+# - title: "个人网站重设计"
+#   description: "参考 Every.to 风格的极简个人门户网站设计"
+#   image: "/assets/img/designs/website-redesign.png"
+#   category: "ui"
+#   category_name: "UI设计"
+#   date: "2026-02"
+#   color: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"  # 可选，图片占位符背景
+
+# - title: "技术分享海报"
+#   description: "区块链入门讲座宣传海报"
+#   image: "/assets/img/designs/poster-blockchain.png"
+#   category: "poster"
+#   category_name: "海报"
+#   date: "2026-01"
+
+# 当前暂无设计作品，后续可在此添加

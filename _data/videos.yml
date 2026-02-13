@@ -1,0 +1,14 @@
+# 视频数据
+# 用于 /videos 页面展示
+
+# 示例数据格式：
+# - title: "区块链入门教程"
+#   platform: "bilibili"  # 或 "youtube"
+#   video_id: "BV1xx411c7mD"  # B站bv号或YouTube视频ID
+#   thumbnail: "/assets/img/videos/blockchain.png"
+#   description: "从零开始理解区块链技术"
+#   date: "2026-01-15"
+#   duration: "15:30"
+#   color: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"  # 可选，缩略图占位符背景
+
+# 当前暂无视频内容，后续可在此添加

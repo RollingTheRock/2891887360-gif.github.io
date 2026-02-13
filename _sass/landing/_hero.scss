@@ -1,0 +1,414 @@
+// ============================================
+// Every.to Style Design System - Hero
+// ============================================
+
+@use 'variables' as *;
+
+// ----------------------------------------
+// Hero Section Base
+// ----------------------------------------
+
+.landing-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: calc(var(--landing-nav-height) + #{$space-8});
+  padding-bottom: $space-16;
+  padding-left: $container-padding-x-sm;
+  padding-right: $container-padding-x-sm;
+  overflow: hidden;
+
+  @include media-md {
+    padding-left: $container-padding-x;
+    padding-right: $container-padding-x;
+  }
+
+  // Background gradient orbs
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba($indigo-500, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba($pink-500, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba($indigo-400, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+
+    @include motion-safe {
+      animation: heroGradientMove 20s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes heroGradientMove {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(2%, 2%) rotate(2deg);
+  }
+  66% {
+    transform: translate(-2%, 1%) rotate(-1deg);
+  }
+}
+
+.landing-hero__container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  text-align: center;
+}
+
+// ----------------------------------------
+// Avatar
+// ----------------------------------------
+
+.landing-hero__avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--landing-bg-secondary);
+  box-shadow: var(--landing-shadow-xl);
+  margin-bottom: $space-8;
+
+  @include media-md {
+    width: 140px;
+    height: 140px;
+  }
+
+  @include motion-safe {
+    animation: fadeInUp 0.8s ease-out;
+  }
+}
+
+// ----------------------------------------
+// Title
+// ----------------------------------------
+
+.landing-hero__title {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-extrabold;
+  line-height: $line-height-tight;
+  color: var(--landing-text-primary);
+  margin-bottom: $space-6;
+  letter-spacing: -0.02em;
+
+  @include media-md {
+    font-size: $font-size-5xl;
+  }
+
+  @include media-lg {
+    font-size: $font-size-6xl;
+  }
+
+  @include motion-safe {
+    animation: fadeInUp 0.8s ease-out 0.1s both;
+  }
+}
+
+.landing-hero__title-line {
+  display: block;
+}
+
+.landing-hero__title-accent {
+  @include gradient-text(var(--landing-gradient-text));
+}
+
+// ----------------------------------------
+// Subtitle
+// ----------------------------------------
+
+.landing-hero__subtitle {
+  font-size: $font-size-lg;
+  color: var(--landing-text-secondary);
+  line-height: $line-height-relaxed;
+  max-width: 600px;
+  margin: 0 auto $space-10;
+
+  @include media-md {
+    font-size: $font-size-xl;
+  }
+
+  @include motion-safe {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+}
+
+// ----------------------------------------
+// CTA Buttons
+// ----------------------------------------
+
+.landing-hero__actions {
+  display: flex;
+  gap: $space-4;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @include motion-safe {
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+  }
+}
+
+// ----------------------------------------
+// Buttons
+// ----------------------------------------
+
+.landing-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  padding: $space-3 $space-8;
+  border-radius: $radius-full;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all $transition-base;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  @include media-sm {
+    padding: $space-4 $space-8;
+  }
+}
+
+.landing-btn--primary {
+  background: var(--landing-gradient-hero);
+  color: white;
+  box-shadow: 0 4px 15px rgba($indigo-500, 0.4);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($indigo-500, 0.5);
+    color: white;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.landing-btn--secondary {
+  background: var(--landing-bg-secondary);
+  color: var(--landing-text-primary);
+  border: 1px solid var(--landing-border-primary);
+
+  &:hover {
+    border-color: var(--landing-accent);
+    color: var(--landing-accent);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.landing-btn--ghost {
+  background: transparent;
+  color: var(--landing-text-secondary);
+
+  &:hover {
+    color: var(--landing-text-primary);
+    background: var(--landing-bg-tertiary);
+  }
+}
+
+.landing-btn--icon {
+  padding: $space-3;
+}
+
+// ----------------------------------------
+// Small Hero (for other pages)
+// ----------------------------------------
+
+.landing-hero--small {
+  min-height: auto;
+  padding-top: calc(var(--landing-nav-height) + #{$space-12});
+  padding-bottom: $space-12;
+
+  .landing-hero__title {
+    font-size: $font-size-3xl;
+    margin-bottom: $space-4;
+
+    @include media-md {
+      font-size: $font-size-4xl;
+    }
+  }
+
+  .landing-hero__subtitle {
+    font-size: $font-size-base;
+    margin-bottom: 0;
+
+    @include media-md {
+      font-size: $font-size-lg;
+    }
+  }
+}
+
+// ----------------------------------------
+// Section Header (reusable)
+// ----------------------------------------
+
+.landing-section-header {
+  text-align: center;
+  margin-bottom: $space-16;
+
+  @include media-down-md {
+    margin-bottom: $space-10;
+  }
+}
+
+.landing-section-header__label {
+  display: inline-block;
+  padding: $space-2 $space-4;
+  background: var(--landing-accent-lighter);
+  color: var(--landing-accent);
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: $space-4;
+}
+
+.landing-section-header__title {
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: var(--landing-text-primary);
+  margin-bottom: $space-4;
+  line-height: $line-height-tight;
+
+  @include media-md {
+    font-size: $font-size-4xl;
+  }
+}
+
+.landing-section-header__subtitle {
+  font-size: $font-size-lg;
+  color: var(--landing-text-secondary);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+// ----------------------------------------
+// Tags (for about section)
+// ----------------------------------------
+
+.landing-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $space-3;
+}
+
+.landing-tag {
+  padding: $space-2 $space-4;
+  background: var(--landing-bg-secondary);
+  border: 1px solid var(--landing-border-primary);
+  border-radius: $radius-full;
+  font-size: $font-size-sm;
+  color: var(--landing-text-secondary);
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: var(--landing-accent);
+    color: var(--landing-accent);
+    transform: translateY(-2px);
+  }
+}
+
+// ----------------------------------------
+// Social Links (in hero)
+// ----------------------------------------
+
+.landing-hero__social {
+  display: flex;
+  justify-content: center;
+  gap: $space-3;
+  margin-bottom: $space-10;
+
+  @include motion-safe {
+    animation: fadeInUp 0.8s ease-out 0.25s both;
+  }
+}
+
+.landing-hero__social-link {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-lg;
+  color: var(--landing-text-secondary);
+  background: var(--landing-bg-secondary);
+  border: 1px solid var(--landing-border-primary);
+  text-decoration: none;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: var(--landing-accent);
+    border-color: var(--landing-accent);
+    transform: translateY(-2px);
+  }
+}
+
+// ----------------------------------------
+// Scroll Down Indicator
+// ----------------------------------------
+
+.landing-hero__scroll {
+  position: absolute;
+  bottom: $space-10;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-2;
+  color: var(--landing-text-tertiary);
+  text-decoration: none;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: color $transition-fast;
+
+  @include motion-safe {
+    animation: fadeInUp 0.8s ease-out 0.5s both;
+  }
+
+  @include motion-reduce {
+    opacity: 1;
+    animation: none;
+  }
+
+  &:hover {
+    color: var(--landing-accent);
+  }
+
+  @include media-down-md {
+    display: none;
+  }
+}
+
+.landing-hero__scroll-icon {
+  animation: bounce 2s infinite;
+
+  @include motion-reduce {
+    animation: none;
+  }
+}

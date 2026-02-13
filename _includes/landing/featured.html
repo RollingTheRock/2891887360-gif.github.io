@@ -1,0 +1,59 @@
+{% comment %}
+  Featured Content Section
+  - Featured projects (featured: true)
+  - Latest posts (3 most recent)
+{% endcomment %}
+
+{% assign featured_projects = site.data.projects | where: "featured", true | limit: 2 %}
+{% assign latest_posts = site.posts | limit: 3 %}
+
+<section class="landing-section landing-bg-secondary">
+  <div class="landing-content-wrapper landing-content-wide">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="landing-section-header landing-reveal">
+      <span class="landing-section-header__label">精选</span>
+      <h2 class="landing-section-header__title">最新动态</h2>
+      <p class="landing-section-header__subtitle">最近的项目进展与文章发布</p>
+    </div>
+
+    {% comment %} Featured Projects {% endcomment %}
+    {% if featured_projects.size > 0 %}
+    <div class="landing-mb-12">
+      <h3 class="landing-title-xl landing-mb-6 landing-reveal">
+        <i class="fas fa-star" style="color: var(--landing-accent);"></i>
+        精选项目
+      </h3>
+
+      <div class="landing-flex-col landing-gap-6">
+        {% for project in featured_projects %}
+          {% include components/project-card.html project=project featured=true reveal_delay=forloop.index %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% comment %} Latest Posts {% endcomment %}
+    {% if latest_posts.size > 0 %}
+    <div>
+      <div class="landing-flex landing-justify-between landing-items-center landing-mb-6 landing-reveal">
+        <h3 class="landing-title-xl">
+          <i class="fas fa-pen-nib" style="color: var(--landing-accent);"></i>
+          最新文章
+        </h3>
+        <a href="{{ '/blog/' | relative_url }}" class="landing-link landing-link-animated">
+          查看全部
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="landing-flex-col landing-gap-4">
+        {% for post in latest_posts %}
+          {% include components/post-card.html post=post reveal_delay=forloop.index %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>

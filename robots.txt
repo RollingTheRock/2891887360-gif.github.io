@@ -1,0 +1,28 @@
+# robots.txt for {{ site.title }}
+# Website: {{ site.url }}
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: {{ site.url }}/sitemap.xml
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+# Disallow admin and draft pages
+User-agent: *
+Disallow: /admin/
+Disallow: /drafts/
+Disallow: /_drafts/
+Disallow: /assets/js/dist/
+
+# Crawl-delay for bots that support it
+Crawl-delay: 1

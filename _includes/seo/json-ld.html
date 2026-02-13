@@ -1,0 +1,207 @@
+{% comment %}
+  JSON-LD Structured Data
+  Provides rich snippets for search engines
+{% endcomment %}
+
+{% comment %} Person Schema - Always present {% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ site.social.name }}",
+  "url": "{{ site.url }}",
+  "image": "{{ site.avatar | absolute_url }}",
+  "description": "{{ site.description }}",
+  "jobTitle": "学生",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "中南财经政法大学"
+  },
+  "sameAs": [
+    {% if site.github.username %}"https://github.com/{{ site.github.username }}"{% endif %}
+    {% if site.twitter.username %},"https://twitter.com/{{ site.twitter.username }}"{% endif %}
+  ],
+  "knowsAbout": ["区块链技术", "算法", "分布式系统", "密码学"]
+}
+</script>
+
+{% comment %} WebSite Schema - Always present {% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ site.title }}",
+  "url": "{{ site.url }}",
+  "description": "{{ site.description }}",
+  "publisher": {
+    "@type": "Person",
+    "name": "{{ site.social.name }}"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ site.url }}/search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+{% comment %} BreadcrumbList - Always present except on homepage {% endcomment %}
+{% unless page.url == '/' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "{{ site.url }}/"
+    }
+    {% if page.collection or page.layout != 'landing' %}
+    ,{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "{% case page.collection %}{% when 'projects' %}项目{% when 'designs' %}设计{% when 'videos' %}视频{% when 'posts' %}博客{% else %}{{ page.title }}{% endcase %}",
+      "item": "{{ site.url }}{% case page.collection %}{% when 'projects' %}/projects/{% when 'designs' %}/design/{% when 'videos' %}/videos/{% when 'posts' %}/blog/{% else %}{{ page.url }}{% endcase %}"
+    }
+    {% endif %}
+    {% if page.title and page.url != '/' and page.collection %}
+    ,{
+      "@type": "ListItem",
+      "position": {% if page.collection %}3{% else %}2{% endif %},
+      "name": "{{ page.title }}",
+      "item": "{{ page.url | absolute_url }}"
+    }
+    {% endif %}
+  ]
+}
+</script>
+{% endunless %}
+
+{% comment %} Article Schema - For blog posts {% endcomment %}
+{% if page.collection == 'posts' or page.layout == 'post' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ page.title }}",
+  "description": "{{ page.description | default: page.excerpt | strip_html | truncate: 150 }}",
+  "url": "{{ page.url | absolute_url }}",
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  {% if page.last_modified_at %}"dateModified": "{{ page.last_modified_at | date_to_xmlschema }}",{% else %}"dateModified": "{{ page.date | date_to_xmlschema }}",{% endif %}
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.social.name }}",
+    "url": "{{ site.url }}"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "{{ site.social.name }}",
+    "url": "{{ site.url }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.avatar | absolute_url }}"
+    }
+  },
+  {% if page.image %}"image": "{{ page.image | absolute_url }}",{% endif %}
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  },
+  "keywords": "{{ page.tags | join: ', ' }}"
+}
+</script>
+{% endif %}
+
+{% comment %} SoftwareApplication Schema - For projects {% endcomment %}
+{% if page.collection == 'projects' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ page.title }}",
+  "description": "{{ page.description }}",
+  "url": "{{ page.url | absolute_url }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.social.name }}"
+  },
+  {% if page.github %}"codeRepository": "{{ page.github }}",{% endif %}
+  {% if page.link %}"applicationCategory": "DeveloperApplication",{% endif %}
+  "operatingSystem": "Any",
+  "softwareVersion": "1.0",
+  {% if page.tech %}"programmingLanguage": "{{ page.tech | join: ', ' }}",{% endif %}
+  "license": "https://opensource.org/licenses/MIT"
+}
+</script>
+{% endif %}
+
+{% comment %} CreativeWork Schema - For designs {% endcomment %}
+{% if page.collection == 'designs' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "{{ page.title }}",
+  "description": "{{ page.description }}",
+  "url": "{{ page.url | absolute_url }}",
+  "creator": {
+    "@type": "Person",
+    "name": "{{ site.social.name }}"
+  },
+  {% if page.image %}"image": "{{ page.image | absolute_url }}",{% endif %}
+  {% if page.date %}"dateCreated": "{{ page.date | date_to_xmlschema }}",{% endif %}
+  {% if page.tools %}"material": "{{ page.tools | join: ', ' }}",{% endif %}
+  "genre": "{{ page.category | default: 'Design' }}"
+}
+</script>
+{% endif %}
+
+{% comment %} VideoObject Schema - For videos {% endcomment %}
+{% if page.collection == 'videos' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "{{ page.title }}",
+  "description": "{{ page.description }}",
+  "url": "{{ page.url | absolute_url }}",
+  "thumbnailUrl": "{% if page.thumbnail %}{{ page.thumbnail | absolute_url }}{% else %}{{ site.avatar | absolute_url }}{% endif %}",
+  "uploadDate": "{{ page.date | date_to_xmlschema }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.social.name }}"
+  },
+  {% if page.duration %}"duration": "PT{{ page.duration | replace: ':', 'M' | append: 'S' }}",{% endif %}
+  {% if page.video_id %}
+    {% if page.platform == 'bilibili' %}"embedUrl": "https://player.bilibili.com/player.html?bvid={{ page.video_id }}",{% endif %}
+    {% if page.platform == 'youtube' %}"embedUrl": "https://www.youtube.com/embed/{{ page.video_id }}",{% endif %}
+  {% endif %}
+  "contentUrl": "{{ page.url | absolute_url }}"
+}
+</script>
+{% endif %}
+
+{% comment %} ProfilePage Schema - For about page {% endcomment %}
+{% if page.url == '/about/' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "{{ site.social.name }}",
+    "description": "{{ site.description }}",
+    "image": "{{ site.avatar | absolute_url }}",
+    "sameAs": [
+      {% if site.github.username %}"https://github.com/{{ site.github.username }}"{% endif %}
+      {% if site.twitter.username %},"https://twitter.com/{{ site.twitter.username }}"{% endif %}
+    ]
+  }
+}
+</script>
+{% endif %}

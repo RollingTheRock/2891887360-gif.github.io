@@ -102,7 +102,7 @@ avatar: "/assets/img/avatar.jpg"
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
-social_preview_image: # string, local or CORS resources
+social_preview_image: /assets/img/avatar.jpg
 
 # boolean type, the global switch for TOC in posts.
 toc: true
@@ -174,6 +174,15 @@ collections:
   tabs:
     output: true
     sort_by: order
+  projects:
+    output: true
+    permalink: /projects/:title/
+  designs:
+    output: true
+    permalink: /design/:title/
+  videos:
+    output: true
+    permalink: /videos/:title/
 
 defaults:
   - scope:
@@ -196,6 +205,21 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: project
+  - scope:
+      path: ""
+      type: designs
+    values:
+      layout: design
+  - scope:
+      path: ""
+      type: videos
+    values:
+      layout: video
 
 sass:
   style: compressed

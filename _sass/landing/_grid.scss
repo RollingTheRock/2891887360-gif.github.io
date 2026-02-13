@@ -1,0 +1,245 @@
+// ============================================
+// Every.to Style Design System - Grid System
+// ============================================
+
+@use 'variables' as *;
+
+// ----------------------------------------
+// CSS Grid Layouts
+// ----------------------------------------
+
+// Main grid - for navigation cards
+.landing-grid-4 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  @include media-sm {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-6;
+  }
+
+  @include media-lg {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// 3 column grid - for projects
+.landing-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include media-sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// 2 column grid - for featured content
+.landing-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include media-md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// ----------------------------------------
+// Flexbox Layouts
+// ----------------------------------------
+
+.landing-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.landing-flex-wrap {
+  flex-wrap: wrap;
+}
+
+.landing-flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+// Alignment
+.landing-items-start {
+  align-items: flex-start;
+}
+
+.landing-items-center {
+  align-items: center;
+}
+
+.landing-items-end {
+  align-items: flex-end;
+}
+
+.landing-justify-start {
+  justify-content: flex-start;
+}
+
+.landing-justify-center {
+  justify-content: center;
+}
+
+.landing-justify-end {
+  justify-content: flex-end;
+}
+
+.landing-justify-between {
+  justify-content: space-between;
+}
+
+.landing-justify-around {
+  justify-content: space-around;
+}
+
+// Gap utilities
+.landing-gap-0 { gap: $space-0; }
+.landing-gap-1 { gap: $space-1; }
+.landing-gap-2 { gap: $space-2; }
+.landing-gap-3 { gap: $space-3; }
+.landing-gap-4 { gap: $space-4; }
+.landing-gap-6 { gap: $space-6; }
+.landing-gap-8 { gap: $space-8; }
+.landing-gap-12 { gap: $space-12; }
+
+// ----------------------------------------
+// Content Wrappers
+// ----------------------------------------
+
+.landing-content-wrapper {
+  width: 100%;
+  max-width: $container-max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $container-padding-x-sm;
+  padding-right: $container-padding-x-sm;
+
+  @include media-md {
+    padding-left: $container-padding-x;
+    padding-right: $container-padding-x;
+  }
+}
+
+.landing-content-narrow {
+  max-width: 720px;
+}
+
+.landing-content-wide {
+  max-width: 960px;
+}
+
+// ----------------------------------------
+// Responsive Layout Patterns
+// ----------------------------------------
+
+// Stack on mobile, side-by-side on desktop
+.landing-stack {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+
+  @include media-lg {
+    flex-direction: row;
+    gap: $space-12;
+
+    > * {
+      flex: 1;
+    }
+  }
+}
+
+.landing-stack-reverse {
+  @extend .landing-stack;
+
+  @include media-lg {
+    flex-direction: row-reverse;
+  }
+}
+
+// Centered content block
+.landing-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+// ----------------------------------------
+// Masonry-like Grid (for design gallery)
+// ----------------------------------------
+
+.landing-masonry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include media-sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .landing-masonry-item {
+    break-inside: avoid;
+    margin-bottom: $space-6;
+
+    &:nth-child(3n+1) {
+      @include media-lg {
+        grid-row: span 1;
+      }
+    }
+
+    &:nth-child(3n+2) {
+      @include media-lg {
+        grid-row: span 2;
+      }
+    }
+  }
+}
+
+// ----------------------------------------
+// Section Layouts
+// ----------------------------------------
+
+.landing-split-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 60vh;
+  align-items: center;
+
+  @include media-lg {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .split-content {
+    padding: $space-8;
+
+    @include media-lg {
+      padding: $space-16;
+    }
+  }
+
+  .split-visual {
+    display: none;
+
+    @include media-lg {
+      display: block;
+      height: 100%;
+    }
+  }
+}

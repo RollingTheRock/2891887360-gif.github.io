@@ -1,0 +1,47 @@
+---
+layout: compress
+---
+
+<!doctype html>
+
+{% include origin-type.html %}
+
+{% include lang.html %}
+
+{% if site.theme_mode %}
+  {% capture prefer_mode %}data-mode="{{ site.theme_mode }}"{% endcapture %}
+{% endif %}
+
+<html lang="{{ page.lang | default: site.alt_lang | default: site.lang }}" {{ prefer_mode }}>
+  {% include head.html lang=lang %}
+  {% include landing-head.html %}
+
+  <body class="landing-page">
+    {% comment %} Navigation {% endcomment %}
+    {% include landing-nav.html lang=lang %}
+
+    <main id="main-content" class="landing-main">
+      {{ content }}
+    </main>
+
+    {% comment %} Footer {% endcomment %}
+    {% include landing/footer.html %}
+
+    <aside aria-label="Scroll to Top">
+      <button id="back-to-top" type="button" class="landing-btn landing-btn--ghost landing-btn--icon">
+        <i class="fas fa-arrow-up"></i>
+      </button>
+    </aside>
+
+    <div id="mask" class="d-none position-fixed w-100 h-100 z-1"></div>
+
+    {% if site.pwa.enabled %}
+      {% include_cached notification.html lang=lang %}
+    {% endif %}
+
+    {% include_cached search-loader.html lang=lang %}
+
+    <!-- Landing Page Scripts -->
+    <script src="{{ '/assets/js/landing.js' | relative_url }}" defer></script>
+  </body>
+</html>

@@ -1,0 +1,119 @@
+---
+layout: landing
+---
+
+{% include lang.html %}
+
+{% comment %} Back Button {% endcomment %}
+<div class="landing-content-wrapper" style="padding-top: calc(var(--landing-nav-height) + 24px);">
+  <a href="{{ '/projects/' | relative_url }}" class="landing-link landing-mb-4" style="display: inline-flex; align-items: center; gap: 8px;">
+    <i class="fas fa-arrow-left"></i>
+    返回项目列表
+  </a>
+</div>
+
+{% comment %} Project Header {% endcomment %}
+<section class="landing-section-sm">
+  <div class="landing-content-wrapper landing-content-wide">
+    <div class="landing-reveal">
+      {% if page.image %}
+        <div style="width: 100%; height: 400px; border-radius: 16px; overflow: hidden; margin-bottom: 32px;">
+          <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+      {% endif %}
+
+      <h1 class="landing-title-4xl landing-mb-4">{{ page.title }}</h1>
+
+      {% if page.description %}
+        <p class="landing-text-xl landing-text-secondary landing-mb-6">{{ page.description }}</p>
+      {% endif %}
+
+      {% comment %} Tech Stack {% endcomment %}
+      {% if page.tech %}
+        <div class="landing-tags landing-justify-start landing-mb-6">
+          {% for tech in page.tech %}
+            <span class="landing-tag">{{ tech }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% comment %} Action Buttons {% endcomment %}
+      <div class="landing-flex landing-gap-4 landing-mb-8">
+        {% if page.github %}
+          <a href="{{ page.github }}" class="landing-btn landing-btn--secondary" target="_blank" rel="noopener">
+            <i class="fab fa-github"></i>
+            GitHub
+          </a>
+        {% endif %}
+        {% if page.link %}
+          <a href="{{ page.link }}" class="landing-btn landing-btn--primary" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i>
+            访问项目
+          </a>
+        {% endif %}
+        {% if page.demo %}
+          <a href="{{ page.demo }}" class="landing-btn landing-btn--ghost" target="_blank" rel="noopener">
+            <i class="fas fa-play"></i>
+            在线演示
+          </a>
+        {% endif %}
+      </div>
+
+      {% comment %} Project Meta {% endcomment %}
+      <div class="landing-flex landing-gap-6 landing-text-sm landing-text-muted landing-mb-8" style="padding: 16px 0; border-top: 1px solid var(--landing-border-primary); border-bottom: 1px solid var(--landing-border-primary);">
+        {% if page.date %}
+          <span>
+            <i class="far fa-calendar"></i>
+            {{ page.date | date: "%Y年%m月" }}
+          </span>
+        {% endif %}
+        {% if page.status %}
+          <span>
+            <i class="fas fa-circle" style="color: {% if page.status == 'completed' %}#22c55e{% elsif page.status == 'in-progress' %}#3b82f6{% else %}#f59e0b{% endif %};"></i>
+            {% case page.status %}
+              {% when 'completed' %}已完成
+              {% when 'in-progress' %}进行中
+              {% when 'planned' %}计划中
+              {% else %}{{ page.status }}
+            {% endcase %}
+          </span>
+        {% endif %}
+        {% if page.role %}
+          <span>
+            <i class="fas fa-user-tag"></i>
+            {{ page.role }}
+          </span>
+        {% endif %}
+      </div>
+    </div>
+
+    {% comment %} Project Content {% endcomment %}
+    <div class="landing-reveal landing-text-base" style="line-height: 1.8;">
+      {{ content }}
+    </div>
+
+    {% comment %} Share Buttons {% endcomment %}
+    <div class="landing-mt-8 landing-reveal">
+      {% include components/share-buttons.html title=page.title url=page.url %}
+    </div>
+
+    {% comment %} Navigation {% endcomment %}
+    <div class="landing-flex landing-justify-between landing-mt-12 landing-pt-8" style="border-top: 1px solid var(--landing-border-primary);">
+      {% if page.previous %}
+        <a href="{{ page.previous.url | relative_url }}" class="landing-link" style="text-align: left;">
+          <small style="display: block; color: var(--landing-text-muted); margin-bottom: 4px;">上一个项目</small>
+          <span><i class="fas fa-arrow-left"></i> {{ page.previous.title }}</span>
+        </a>
+      {% else %}
+        <span></span>
+      {% endif %}
+
+      {% if page.next %}
+        <a href="{{ page.next.url | relative_url }}" class="landing-link" style="text-align: right;">
+          <small style="display: block; color: var(--landing-text-muted); margin-bottom: 4px;">下一个项目</small>
+          <span>{{ page.next.title }} <i class="fas fa-arrow-right"></i></span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>

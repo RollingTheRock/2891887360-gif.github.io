@@ -1,0 +1,46 @@
+---
+layout: none
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>{{ site.title }} - 项目动态</title>
+    <description>{{ site.description }} - 开源项目和技术作品更新</description>
+    <link>{{ site.url }}/projects/</link>
+    <atom:link href="{{ site.url }}/feed-projects.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
+    <language>zh-CN</language>
+    <image>
+      <url>{{ site.avatar | absolute_url }}</url>
+      <title>{{ site.title }} - 项目动态</title>
+      <link>{{ site.url }}/projects/</link>
+    </image>
+
+    {% assign projects = site.projects | sort: 'date' | reverse | limit: 20 %}
+    {% for project in projects %}
+    <item>
+      <title>{{ project.title }}</title>
+      <description>{{ project.description | xml_escape }}</description>
+      <pubDate>{{ project.date | date_to_rfc822 }}</pubDate>
+      <link>{{ project.url | absolute_url }}</link>
+      <guid isPermaLink="true">{{ project.url | absolute_url }}</guid>
+      {% for tech in project.tech %}
+      <category>{{ tech }}</category>
+      {% endfor %}
+      {% if project.github %}
+      <source url="{{ project.github }}">GitHub Repository</source>
+      {% endif %}
+      <content:encoded>
+        <![CDATA[
+          {% if project.image %}<img src="{{ project.image | absolute_url }}" alt="{{ project.title }}" />{% endif %}
+          <p>{{ project.description }}</p>
+          <p>技术栈: {{ project.tech | join: ', ' }}</p>
+          {% if project.github %}<p><a href="{{ project.github }}">查看源码</a></p>{% endif %}
+          {% if project.link %}<p><a href="{{ project.link }}">访问项目</a></p>{% endif %}
+        ]]>
+      </content:encoded>
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

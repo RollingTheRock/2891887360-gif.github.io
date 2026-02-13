@@ -1,0 +1,172 @@
+{% comment %}
+  Hero Section for Landing Page
+  Uses: site.avatar, site.social.name, site.tagline
+{% endcomment %}
+
+<section class="landing-hero">
+  <div class="landing-hero__container">
+    {% comment %} Avatar {% endcomment %}
+    <img
+      src="{{ site.avatar | relative_url }}"
+      alt="{{ site.social.name }}"
+      class="landing-hero__avatar"
+      loading="eager"
+    >
+
+    {% comment %} Title {% endcomment %}
+    <h1 class="landing-hero__title">
+      <span class="landing-hero__title-line">你好，我是</span>
+      <span class="landing-hero__title-line landing-hero__title-accent">{{ site.social.name }}</span>
+    </h1>
+
+    {% comment %} Subtitle/Tagline {% endcomment %}
+    <p class="landing-hero__subtitle">
+      {{ site.tagline | default: '中南财经政法大学在读。白天研究区块链，晚上刷算法题，凌晨思考维特根斯坦。' }}
+    </p>
+
+    {% comment %} Social Links {% endcomment %}
+    <div class="landing-hero__social">
+      {% if site.github.username %}
+        <a
+          href="https://github.com/{{ site.github.username }}"
+          class="landing-hero__social-link"
+          target="_blank"
+          rel="noopener"
+          aria-label="GitHub"
+        >
+          <i class="fab fa-github"></i>
+        </a>
+      {% endif %}
+
+      {% if site.social.email %}
+        <a
+          href="mailto:{{ site.social.email }}"
+          class="landing-hero__social-link"
+          aria-label="Email"
+        >
+          <i class="fas fa-envelope"></i>
+        </a>
+      {% endif %}
+
+      {% if site.twitter.username %}
+        <a
+          href="https://twitter.com/{{ site.twitter.username }}"
+          class="landing-hero__social-link"
+          target="_blank"
+          rel="noopener"
+          aria-label="Twitter"
+        >
+          <i class="fab fa-twitter"></i>
+        </a>
+      {% endif %}
+
+      {% comment %} RSS Feed {% endcomment %}
+      <a
+        href="{{ '/feed.xml' | relative_url }}"
+        class="landing-hero__social-link"
+        aria-label="RSS Feed"
+      >
+        <i class="fas fa-rss"></i>
+      </a>
+    </div>
+
+    {% comment %} CTA Buttons {% endcomment %}
+    <div class="landing-hero__actions">
+      <a href="{{ '/blog/' | relative_url }}" class="landing-btn landing-btn--primary">
+        <i class="fas fa-book-open"></i>
+        阅读博客
+      </a>
+      <a href="{{ '/about/' | relative_url }}" class="landing-btn landing-btn--secondary">
+        <i class="fas fa-user"></i>
+        了解更多
+      </a>
+    </div>
+
+    {% comment %} Scroll Down Indicator {% endcomment %}
+    <a href="#content" class="landing-hero__scroll" aria-label="Scroll to content">
+      <span class="landing-hero__scroll-text">向下滚动</span>
+      <i class="fas fa-chevron-down landing-hero__scroll-icon"></i>
+    </a>
+  </div>
+
+  <style>
+    .landing-hero__social {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      animation: fadeInUp 0.8s ease-out 0.25s both;
+    }
+
+    .landing-hero__social-link {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--landing-text-secondary);
+      background: var(--landing-bg-secondary);
+      border: 1px solid var(--landing-border-primary);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .landing-hero__social-link:hover {
+      color: var(--landing-accent);
+      border-color: var(--landing-accent);
+      transform: translateY(-2px);
+    }
+
+    .landing-hero__scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--landing-text-tertiary);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out 0.5s both;
+      transition: color 0.2s;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .landing-hero__scroll {
+        animation: none;
+        opacity: 1;
+      }
+    }
+
+    .landing-hero__scroll:hover {
+      color: var(--landing-accent);
+    }
+
+    .landing-hero__scroll-text {
+      text-transform: uppercase;
+    }
+
+    .landing-hero__scroll-icon {
+      animation: bounce 2s infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .landing-hero__scroll-icon {
+        animation: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .landing-hero__scroll {
+        display: none;
+      }
+    }
+  </style>
+</section>

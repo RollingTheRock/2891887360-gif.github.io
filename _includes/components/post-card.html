@@ -1,0 +1,124 @@
+{% comment %}
+  Post Card Component
+  Usage: {% include components/post-card.html post=post_variable reveal_delay=number %}
+
+  Required: post (page/post object)
+  Optional: reveal_delay (number)
+{% endcomment %}
+
+{% assign post = include.post %}
+{% assign delay = include.reveal_delay | default: 0 %}
+
+<a
+  href="{{ post.url | relative_url }}"
+  class="landing-post-card landing-reveal landing-reveal--{{ delay }}">
+
+  {% comment %} Cover Image {% endcomment %}
+  {% if post.image %}
+    <div
+      class="landing-post-card__cover"
+      style="background-image: url('{{ post.image | relative_url }}');"
+    ></div>
+  {% else %}
+    <div class="landing-post-card__placeholder">📝</div>
+  {% endif %}
+
+  {% comment %} Content {% endcomment %}
+  <div class="landing-post-card__content">
+    <h3 class="landing-post-card__title">{{ post.title }}</h3>
+    <p class="landing-post-card__excerpt">
+      {{ post.excerpt | strip_html | truncate: 120 }}
+    </p>
+
+    <div class="landing-post-card__meta">
+      <span>
+        <i class="far fa-calendar"></i>
+        {{ post.date | date: "%Y-%m-%d" }}
+      </span>
+
+      {% if post.categories.size > 0 %}
+        <span class="landing-post-card__categories">
+          {% for category in post.categories limit: 2 %}
+            <span class="landing-project-card__tag">{{ category }}</span>
+          {% endfor %}
+        </span>
+      {% endif %}
+
+      {% if post.pin %}
+        <span class="landing-post-card__pin" title="置顶文章">
+          <i class="fas fa-thumbtack"></i>
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  {% comment %} Arrow indicator on hover {% endcomment %}
+  <span class="landing-post-card__arrow">
+    <i class="fas fa-arrow-right"></i>
+  </span>
+
+  <style>
+    .landing-post-card {
+      position: relative;
+      padding-right: 48px;
+    }
+
+    .landing-post-card__categories {
+      display: flex;
+      gap: 6px;
+    }
+
+    .landing-post-card__pin {
+      color: #f59e0b;
+      margin-left: auto;
+    }
+
+    .landing-post-card__arrow {
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--landing-accent-lighter);
+      color: var(--landing-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      opacity: 0;
+      transform: translateY(-50%) translateX(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .landing-post-card:hover .landing-post-card__arrow {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .landing-post-card__arrow {
+        opacity: 1;
+        transform: translateY(-50%);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .landing-post-card {
+        flex-direction: column;
+        padding-right: 24px;
+      }
+
+      .landing-post-card__cover,
+      .landing-post-card__placeholder {
+        width: 100%;
+        height: 180px;
+      }
+
+      .landing-post-card__arrow {
+        display: none;
+      }
+    }
+  </style>
+</a>

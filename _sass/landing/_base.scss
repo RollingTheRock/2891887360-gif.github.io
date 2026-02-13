@@ -1,0 +1,412 @@
+// ============================================
+// Every.to Style Design System - Base
+// ============================================
+
+@use 'variables' as *;
+
+// ----------------------------------------
+// CSS Variables (Custom Properties)
+// ----------------------------------------
+
+:root {
+  // Background colors
+  --landing-bg-primary: #{$gray-50};
+  --landing-bg-secondary: #{$gray-0};
+  --landing-bg-tertiary: #{$gray-100};
+  --landing-bg-elevated: #{$gray-0};
+
+  // Text colors
+  --landing-text-primary: #{$gray-900};
+  --landing-text-secondary: #{$gray-600};
+  --landing-text-tertiary: #{$gray-500};
+  --landing-text-muted: #{$gray-400};
+
+  // Border colors
+  --landing-border-primary: #{$gray-200};
+  --landing-border-secondary: #{$gray-100};
+
+  // Accent colors
+  --landing-accent: #{$indigo-500};
+  --landing-accent-hover: #{$indigo-600};
+  --landing-accent-light: #{$indigo-100};
+  --landing-accent-lighter: #{$indigo-50};
+
+  // Shadows
+  --landing-shadow-sm: #{$shadow-sm};
+  --landing-shadow-md: #{$shadow-md};
+  --landing-shadow-lg: #{$shadow-lg};
+  --landing-shadow-xl: #{$shadow-xl};
+
+  // Gradients
+  --landing-gradient-hero: linear-gradient(135deg, #{$indigo-500} 0%, #{$pink-500} 50%, #{$indigo-400} 100%);
+  --landing-gradient-text: linear-gradient(135deg, #{$indigo-500} 0%, #{$pink-500} 100%);
+  --landing-gradient-border: linear-gradient(135deg, #{$indigo-500}, #{$pink-500});
+
+  // Typography
+  --landing-font-family: #{$font-family-base};
+  --landing-font-mono: #{$font-family-mono};
+
+  // Spacing
+  --landing-nav-height: 72px;
+  --landing-section-spacing: #{$space-24};
+  --landing-content-spacing: #{$space-16};
+}
+
+// Dark mode
+[data-mode="dark"] {
+  // Background colors
+  --landing-bg-primary: #{$dark-gray-50};
+  --landing-bg-secondary: #{$dark-gray-100};
+  --landing-bg-tertiary: #{$dark-gray-200};
+  --landing-bg-elevated: #{$dark-gray-200};
+
+  // Text colors
+  --landing-text-primary: #{$dark-gray-900};
+  --landing-text-secondary: #{$dark-gray-700};
+  --landing-text-tertiary: #{$dark-gray-600};
+  --landing-text-muted: #{$dark-gray-500};
+
+  // Border colors
+  --landing-border-primary: #{$dark-gray-300};
+  --landing-border-secondary: #{$dark-gray-200};
+
+  // Accent colors
+  --landing-accent: #{$indigo-400};
+  --landing-accent-hover: #{$indigo-300};
+  --landing-accent-light: rgba(#{$indigo-500}, 0.2);
+  --landing-accent-lighter: rgba(#{$indigo-500}, 0.1);
+
+  // Shadows
+  --landing-shadow-sm: #{$dark-shadow-sm};
+  --landing-shadow-md: #{$dark-shadow-md};
+  --landing-shadow-lg: #{$dark-shadow-lg};
+  --landing-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+
+  // Gradients - slightly adjusted for dark mode
+  --landing-gradient-hero: linear-gradient(135deg, #{$indigo-600} 0%, #{$pink-600} 50%, #{$indigo-500} 100%);
+  --landing-gradient-text: linear-gradient(135deg, #{$indigo-400} 0%, #{$pink-400} 100%);
+}
+
+// ----------------------------------------
+// Base Styles
+// ----------------------------------------
+
+.landing-page {
+  font-family: var(--landing-font-family);
+  background-color: var(--landing-bg-primary);
+  color: var(--landing-text-primary);
+  line-height: $line-height-normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  // Smooth scrolling
+  html {
+    scroll-behavior: smooth;
+
+    @include motion-reduce {
+      scroll-behavior: auto;
+    }
+  }
+
+  // Selection color
+  ::selection {
+    background-color: var(--landing-accent-lighter);
+    color: var(--landing-accent-hover);
+  }
+}
+
+// ----------------------------------------
+// Typography
+// ----------------------------------------
+
+.landing-title-7xl {
+  font-size: $font-size-5xl;
+  font-weight: $font-weight-extrabold;
+  line-height: $line-height-tight;
+  letter-spacing: -0.02em;
+
+  @include media-lg {
+    font-size: $font-size-6xl;
+  }
+
+  @include media-xl {
+    font-size: $font-size-7xl;
+  }
+}
+
+.landing-title-6xl {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  letter-spacing: -0.02em;
+
+  @include media-lg {
+    font-size: $font-size-5xl;
+  }
+
+  @include media-xl {
+    font-size: $font-size-6xl;
+  }
+}
+
+.landing-title-4xl {
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+
+  @include media-lg {
+    font-size: $font-size-4xl;
+  }
+}
+
+.landing-title-3xl {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+
+  @include media-lg {
+    font-size: $font-size-3xl;
+  }
+}
+
+.landing-title-2xl {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+
+  @include media-lg {
+    font-size: $font-size-2xl;
+  }
+}
+
+.landing-title-xl {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+
+  @include media-lg {
+    font-size: $font-size-xl;
+  }
+}
+
+.landing-text-xl {
+  font-size: $font-size-lg;
+  line-height: $line-height-relaxed;
+
+  @include media-lg {
+    font-size: $font-size-xl;
+  }
+}
+
+.landing-text-lg {
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+
+  @include media-lg {
+    font-size: $font-size-lg;
+  }
+}
+
+.landing-text-base {
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+}
+
+.landing-text-sm {
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+}
+
+.landing-text-xs {
+  font-size: $font-size-xs;
+  line-height: $line-height-normal;
+}
+
+// Text colors
+.landing-text-gradient {
+  @include gradient-text(var(--landing-gradient-text));
+}
+
+.landing-text-primary {
+  color: var(--landing-text-primary);
+}
+
+.landing-text-secondary {
+  color: var(--landing-text-secondary);
+}
+
+.landing-text-tertiary {
+  color: var(--landing-text-tertiary);
+}
+
+.landing-text-muted {
+  color: var(--landing-text-muted);
+}
+
+.landing-text-accent {
+  color: var(--landing-accent);
+}
+
+// ----------------------------------------
+// Layout Utilities
+// ----------------------------------------
+
+.landing-container {
+  @include container;
+}
+
+.landing-section {
+  padding-top: var(--landing-section-spacing);
+  padding-bottom: var(--landing-section-spacing);
+
+  @include media-down-md {
+    padding-top: #{$space-16};
+    padding-bottom: #{$space-16};
+  }
+}
+
+.landing-section-sm {
+  padding-top: #{$space-16};
+  padding-bottom: #{$space-16};
+}
+
+// ----------------------------------------
+// Background Utilities
+// ----------------------------------------
+
+.landing-bg-primary {
+  background-color: var(--landing-bg-primary);
+}
+
+.landing-bg-secondary {
+  background-color: var(--landing-bg-secondary);
+}
+
+.landing-bg-tertiary {
+  background-color: var(--landing-bg-tertiary);
+}
+
+// ----------------------------------------
+// Spacing Utilities
+// ----------------------------------------
+
+.landing-mt-0 { margin-top: $space-0; }
+.landing-mt-2 { margin-top: $space-2; }
+.landing-mt-4 { margin-top: $space-4; }
+.landing-mt-6 { margin-top: $space-6; }
+.landing-mt-8 { margin-top: $space-8; }
+.landing-mt-12 { margin-top: $space-12; }
+.landing-mt-16 { margin-top: $space-16; }
+
+.landing-mb-0 { margin-bottom: $space-0; }
+.landing-mb-2 { margin-bottom: $space-2; }
+.landing-mb-4 { margin-bottom: $space-4; }
+.landing-mb-6 { margin-bottom: $space-6; }
+.landing-mb-8 { margin-bottom: $space-8; }
+.landing-mb-12 { margin-bottom: $space-12; }
+.landing-mb-16 { margin-bottom: $space-16; }
+
+// ----------------------------------------
+// Display Utilities
+// ----------------------------------------
+
+.landing-hidden {
+  display: none !important;
+}
+
+.landing-block {
+  display: block;
+}
+
+.landing-flex {
+  display: flex;
+}
+
+.landing-inline-flex {
+  display: inline-flex;
+}
+
+.landing-grid {
+  display: grid;
+}
+
+// Responsive display
+.landing-hidden-sm {
+  @include media-down-sm {
+    display: none !important;
+  }
+}
+
+.landing-hidden-md {
+  @include media-down-md {
+    display: none !important;
+  }
+}
+
+.landing-visible-md {
+  display: none;
+
+  @include media-md {
+    display: block;
+  }
+}
+
+.landing-visible-lg {
+  display: none;
+
+  @include media-lg {
+    display: block;
+  }
+}
+
+// ----------------------------------------
+// Focus Styles
+// ----------------------------------------
+
+.landing-focus-ring {
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// ----------------------------------------
+// Link Styles
+// ----------------------------------------
+
+.landing-link {
+  color: var(--landing-accent);
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--landing-accent-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.landing-link-underline {
+  position: relative;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--landing-gradient-border);
+    transition: width $transition-base;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}

@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>王若如的个人博客 - Notion Style Preview</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+  <style>
+    /* Notion 风格变量 */
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f7f6f3;
+      --bg-hover: #efefef;
+      --text-primary: #37352f;
+      --text-secondary: #6b6b6b;
+      --text-gray: #9ca3af;
+      --border-light: #e9e9e7;
+      --border-medium: #d1d1d1;
+      --accent-blue: #2eaadc;
+      --accent-blue-light: rgba(46, 170, 220, 0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+    }
+
+    /* 布局 */
+    .page-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* 左侧边栏 */
+    .notion-sidebar {
+      width: 280px;
+      min-width: 280px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-light);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 24px 16px 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .user-profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .user-avatar-large {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      text-decoration: none;
+    }
+
+    .user-avatar-large:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .user-avatar-large img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-fallback {
+      color: white;
+      font-size: 48px;
+      font-weight: 600;
+    }
+
+    .user-info {
+      margin-bottom: 16px;
+    }
+
+    .user-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .user-name:hover {
+      color: var(--accent-blue);
+    }
+
+    .user-title {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+
+    .user-desc {
+      font-size: 12px;
+      color: var(--text-gray);
+      line-height: 1.5;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .social-link {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-primary);
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border-light);
+    }
+
+    .social-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .social-link[aria-label="github"] { color: #24292f; }
+    .social-link[aria-label="github"]:hover { background: rgba(36, 41, 47, 0.1); }
+
+    .social-link[aria-label="email"] { color: #ea4335; }
+    .social-link[aria-label="email"]:hover { background: rgba(234, 67, 53, 0.1); }
+
+    .social-link[aria-label="rss"] { color: #f26522; }
+    .social-link[aria-label="rss"]:hover { background: rgba(242, 101, 34, 0.1); }
+
+    /* 页面树 */
+    .page-tree {
+      flex: 1;
+      padding: 8px 0;
+      overflow-y: auto;
+    }
+
+    .tree-section {
+      margin-bottom: 8px;
+    }
+
+    .tree-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 6px 16px;
+    }
+
+    .tree-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px 5px 16px;
+      margin: 0 8px;
+      border-radius: 4px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tree-item:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .tree-item.active {
+      background: var(--accent-blue-light);
+      color: var(--accent-blue);
+      font-weight: 500;
+    }
+
+    .tree-item i {
+      width: 18px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .tree-item.has-children {
+      padding-left: 8px;
+    }
+
+    .tree-item.child {
+      padding-left: 32px;
+      font-size: 13px;
+    }
+
+    .tree-toggle {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+      transition: transform 0.15s ease;
+    }
+
+    .tree-toggle:hover {
+      background: var(--bg-hover);
+    }
+
+    .tree-toggle.collapsed {
+      transform: rotate(-90deg);
+    }
+
+    .tree-toggle i {
+      font-size: 10px;
+      width: auto;
+    }
+
+    .tree-children {
+      overflow: hidden;
+    }
+
+    .tree-children.collapsed {
+      display: none;
+    }
+
+    .sidebar-footer {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .mode-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .mode-toggle:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    /* 主内容区 */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 24px 48px;
+      max-width: 900px;
+    }
+
+    /* Hero */
+    .notion-hero {
+      margin: -24px -48px 32px;
+    }
+
+    .hero-cover {
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    }
+
+    .hero-cover::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      color: white;
+      padding: 24px;
+    }
+
+    .hero-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+      font-style: italic;
+      opacity: 0.9;
+    }
+
+    /* 章节 */
+    .notion-section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .section-icon {
+      font-size: 20px;
+    }
+
+    /* Callout */
+    .notion-callout {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 4px;
+      margin: 16px 0;
+      background: var(--accent-blue-light);
+      border: 1px solid rgba(46, 170, 220, 0.2);
+    }
+
+    .callout-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .callout-content {
+      flex: 1;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+
+    .callout-content p {
+      margin: 0 0 8px;
+    }
+
+    .callout-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 数据库 */
+    .notion-database {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .database-row {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .database-row:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transform: translateY(-1px);
+    }
+
+    .row-link {
+      display: flex;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .row-cover {
+      width: 160px;
+      min-height: 120px;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .row-cover.fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .row-content {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .row-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .row-excerpt {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .row-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: auto;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .meta-date {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .meta-date i {
+      font-size: 12px;
+    }
+
+    .meta-categories {
+      display: flex;
+      gap: 6px;
+    }
+
+    .category-tag {
+      padding: 2px 8px;
+      background: var(--accent-blue-light);
+      color: var(--accent-blue);
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .meta-pin {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #f59e0b;
+      font-weight: 500;
+    }
+
+    /* 分类网格 */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .category-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .category-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+      border-color: var(--accent-blue);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .card-info h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+
+    .card-info p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* 引用 */
+    .notion-quote {
+      border-left: 3px solid var(--border-medium);
+      padding-left: 16px;
+      margin: 16px 0;
+      color: var(--text-secondary);
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* 分页 */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .page-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.15s ease;
+    }
+
+    .page-link:hover {
+      background: var(--bg-secondary);
+      border-color: var(--accent-blue);
+    }
+
+    .page-info {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* 响应式 */
+    @media (max-width: 900px) {
+      .notion-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .notion-sidebar.show {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 16px;
+      }
+
+      .notion-hero {
+        margin: -16px -16px 24px;
+      }
+
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .database-row .row-link {
+        flex-direction: column;
+      }
+
+      .row-cover {
+        width: 100%;
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- 左侧边栏 -->
+    <aside class="notion-sidebar">
+      <header class="sidebar-header">
+        <div class="user-profile">
+          <a href="/" class="user-avatar-large">
+            <div class="avatar-fallback">王</div>
+          </a>
+
+          <div class="user-info">
+            <a class="user-name" href="/">王若如的个人博客</a>
+            <p class="user-title">silence itself has price</p>
+            <p class="user-desc">中南财经政法大学在读<br>AI 创作者</p>
+          </div>
+
+          <div class="social-links">
+            <a href="https://github.com/RollingTheRock" class="social-link" aria-label="github" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="mailto:2891887360@qq.com" class="social-link" aria-label="email">
+              <i class="fas fa-envelope"></i>
+            </a>
+            <a href="/feed.xml" class="social-link" aria-label="rss">
+              <i class="fas fa-rss"></i>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <nav class="page-tree">
+        <div class="tree-section">
+          <div class="tree-item active">
+            <i class="fas fa-home"></i>
+            <span>主页</span>
+          </div>
+          <div class="tree-item">
+            <i class="fas fa-user"></i>
+            <span>关于</span>
+          </div>
+          <div class="tree-item">
+            <i class="fas fa-archive"></i>
+            <span>归档</span>
+          </div>
+        </div>
+
+        <div class="tree-section">
+          <div class="tree-section-title">文章</div>
+
+          <div class="tree-item has-children" onclick="toggleTree(this)">
+            <span class="tree-toggle"><i class="fas fa-chevron-down"></i></span>
+            <i class="fas fa-folder"></i>
+            <span>技术</span>
+          </div>
+          <div class="tree-children">
+            <a href="#" class="tree-item child">
+              <i class="fas fa-code"></i>
+              <span>算法竞赛</span>
+            </a>
+            <a href="#" class="tree-item child">
+              <i class="fas fa-cubes"></i>
+              <span>区块链</span>
+            </a>
+            <a href="#" class="tree-item child">
+              <i class="fas fa-server"></i>
+              <span>软件架构</span>
+            </a>
+          </div>
+
+          <div class="tree-item has-children" onclick="toggleTree(this)">
+            <span class="tree-toggle"><i class="fas fa-chevron-down"></i></span>
+            <i class="fas fa-folder"></i>
+            <span>思想</span>
+          </div>
+          <div class="tree-children">
+            <a href="#" class="tree-item child">
+              <i class="fas fa-brain"></i>
+              <span>哲学思辨</span>
+            </a>
+            <a href="#" class="tree-item child">
+              <i class="fas fa-book"></i>
+              <span>维特根斯坦笔记</span>
+            </a>
+          </div>
+
+          <a href="#" class="tree-item">
+            <i class="fas fa-folder"></i>
+            <span>生活随笔</span>
+          </a>
+        </div>
+
+        <div class="tree-section">
+          <div class="tree-section-title">收藏</div>
+          <a href="#" class="tree-item">
+            <i class="fas fa-hashtag"></i>
+            <span>标签</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button type="button" class="mode-toggle">
+          <i class="fas fa-adjust"></i>
+          <span>切换主题</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main-content">
+      <!-- Hero -->
+      <section class="notion-hero">
+        <div class="hero-cover">
+          <div class="hero-content">
+            <h1 class="hero-title">王若如的个人博客</h1>
+            <p class="hero-subtitle">silence itself has price</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 简介 -->
+      <section class="notion-section">
+        <div class="notion-callout">
+          <div class="callout-icon">👋</div>
+          <div class="callout-content">
+            <p>你好，我是<strong>王若如</strong>，中南财经政法大学在读。</p>
+            <p>白天研究区块链，晚上刷算法题，凌晨思考维特根斯坦到底在说什么（至今没想明白）。</p>
+            <p>一个试图在技术深度和人生广度之间找平衡的人。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 最新文章 -->
+      <section class="notion-section">
+        <h2 class="section-title">
+          <span class="section-icon">📝</span>
+          最新文章
+        </h2>
+
+        <div class="notion-database">
+          <article class="database-row">
+            <a href="#" class="row-link">
+              <div class="row-cover fallback"></div>
+              <div class="row-content">
+                <h3 class="row-title">数据不会死，它只是沉默</h3>
+                <p class="row-excerpt">关于数据、遗忘、以及我们为什么要给冰冷的机器讲故事。数据不会死，它只是沉默。它在某个磁盘的某个扇区里，等着被覆盖...</p>
+                <div class="row-meta">
+                  <span class="meta-date">
+                    <i class="far fa-calendar"></i>
+                    2026-01-20
+                  </span>
+                  <span class="meta-categories">
+                    <span class="category-tag">思考</span>
+                    <span class="category-tag">技术</span>
+                  </span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <article class="database-row">
+            <a href="#" class="row-link">
+              <div class="row-cover fallback" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+              <div class="row-content">
+                <h3 class="row-title">排序算法：从 O(n²) 到 O(n log n) 的进化史</h3>
+                <p class="row-excerpt">排序算法是算法竞赛中最基础也是最重要的内容。从冒泡排序到快速排序，从 O(n²) 到 O(n log n)，这是一个关于优化的故事...</p>
+                <div class="row-meta">
+                  <span class="meta-date">
+                    <i class="far fa-calendar"></i>
+                    2026-01-23
+                  </span>
+                  <span class="meta-categories">
+                    <span class="category-tag">算法</span>
+                  </span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <article class="database-row">
+            <a href="#" class="row-link">
+              <div class="row-cover fallback" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+              <div class="row-content">
+                <h3 class="row-title">欢迎来到王若如的个人博客</h3>
+                <p class="row-excerpt">今天是 2026 年 1 月 18 日，这座"小站"第一次与大家见面。搭建它的过程，花费了不少心血与时间...</p>
+                <div class="row-meta">
+                  <span class="meta-date">
+                    <i class="far fa-calendar"></i>
+                    2026-01-18
+                  </span>
+                  <span class="meta-categories">
+                    <span class="category-tag">生活</span>
+                    <span class="category-tag">随笔</span>
+                  </span>
+                  <span class="meta-pin">
+                    <i class="fas fa-thumbtack"></i>
+                    置顶
+                  </span>
+                </div>
+              </div>
+            </a>
+          </article>
+        </div>
+
+        <nav class="pagination">
+          <span class="page-info">1 / 1</span>
+        </nav>
+      </section>
+
+      <!-- 分类 -->
+      <section class="notion-section">
+        <h2 class="section-title">
+          <span class="section-icon">📂</span>
+          分类浏览
+        </h2>
+
+        <div class="category-grid">
+          <a href="#" class="category-card">
+            <div class="card-icon">🔧</div>
+            <div class="card-info">
+              <h4>技术</h4>
+              <p>算法、区块链、架构</p>
+            </div>
+          </a>
+
+          <a href="#" class="category-card">
+            <div class="card-icon">🤔</div>
+            <div class="card-info">
+              <h4>思想</h4>
+              <p>哲学、思考、随笔</p>
+            </div>
+          </a>
+
+          <a href="#" class="category-card">
+            <div class="card-icon">☕</div>
+            <div class="card-info">
+              <h4>生活</h4>
+              <p>日常、随笔、碎碎念</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 引用 -->
+      <section class="notion-section">
+        <blockquote class="notion-quote">
+          "语言的边界就是世界的边界。" —— 维特根斯坦
+        </blockquote>
+      </section>
+
+      <!-- 页脚 -->
+      <section class="notion-section" style="margin-top: 60px; color: var(--text-gray); font-size: 14px;">
+        <p>silence itself has price</p>
+        <p style="margin-top: 8px;">© 2026 王若如</p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function toggleTree(element) {
+      const children = element.nextElementSibling;
+      const toggle = element.querySelector('.tree-toggle');
+      if (children && children.classList.contains('tree-children')) {
+        children.classList.toggle('collapsed');
+        toggle.classList.toggle('collapsed');
+      }
+    }
+  </script>
+</body>
+</html>
