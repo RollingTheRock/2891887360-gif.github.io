@@ -27,7 +27,7 @@
 
       <div class="landing-flex-col landing-gap-6">
         {% for project in featured_projects %}
-          {% include components/project-card.html project=project featured=true reveal_delay=forloop.index %}
+          {% include components/project-card.html project=project featured=true %}
         {% endfor %}
       </div>
     </div>
@@ -49,7 +49,7 @@
 
       <div class="landing-flex-col landing-gap-4">
         {% for post in latest_posts %}
-          {% include components/post-card.html post=post reveal_delay=forloop.index %}
+          {% include components/post-card.html post=post %}
         {% endfor %}
       </div>
     </div>

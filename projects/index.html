@@ -21,7 +21,7 @@ permalink: /projects/
 
     <div class="landing-flex-col landing-gap-6">
       {% for project in featured_projects limit: 2 %}
-        {% include components/project-card.html project=project featured=true reveal_delay=forloop.index %}
+        {% include components/project-card.html project=project featured=true %}
       {% endfor %}
     </div>
   </div>
