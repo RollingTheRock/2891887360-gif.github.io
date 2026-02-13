@@ -93,19 +93,19 @@
 // ----------------------------------------
 
 .landing-hero__title {
-  font-size: $font-size-4xl;
-  font-weight: $font-weight-extrabold;
+  font-size: $text-4xl;
+  font-weight: $font-weight-bold;
   line-height: $line-height-tight;
   color: var(--landing-text-primary);
   margin-bottom: $space-6;
   letter-spacing: -0.02em;
 
   @include media-md {
-    font-size: $font-size-5xl;
+    font-size: $text-5xl;
   }
 
   @include media-lg {
-    font-size: $font-size-6xl;
+    font-size: $text-6xl;
   }
 
   @include motion-safe {
@@ -126,14 +126,14 @@
 // ----------------------------------------
 
 .landing-hero__subtitle {
-  font-size: $font-size-lg;
+  font-size: $text-lg;
   color: var(--landing-text-secondary);
   line-height: $line-height-relaxed;
   max-width: 600px;
   margin: 0 auto $space-10;
 
   @include media-md {
-    font-size: $font-size-xl;
+    font-size: $text-xl;
   }
 
   @include motion-safe {
@@ -167,7 +167,7 @@
   gap: $space-2;
   padding: $space-3 $space-8;
   border-radius: $radius-full;
-  font-size: $font-size-base;
+  font-size: $text-base;
   font-weight: $font-weight-semibold;
   text-decoration: none;
   cursor: pointer;
@@ -239,20 +239,20 @@
   padding-bottom: $space-12;
 
   .landing-hero__title {
-    font-size: $font-size-3xl;
+    font-size: $text-3xl;
     margin-bottom: $space-4;
 
     @include media-md {
-      font-size: $font-size-4xl;
+      font-size: $text-4xl;
     }
   }
 
   .landing-hero__subtitle {
-    font-size: $font-size-base;
+    font-size: $text-base;
     margin-bottom: 0;
 
     @include media-md {
-      font-size: $font-size-lg;
+      font-size: $text-lg;
     }
   }
 }
@@ -276,7 +276,7 @@
   background: var(--landing-accent-lighter);
   color: var(--landing-accent);
   border-radius: $radius-full;
-  font-size: $font-size-xs;
+  font-size: $text-xs;
   font-weight: $font-weight-semibold;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -284,19 +284,19 @@
 }
 
 .landing-section-header__title {
-  font-size: $font-size-3xl;
+  font-size: $text-3xl;
   font-weight: $font-weight-bold;
   color: var(--landing-text-primary);
   margin-bottom: $space-4;
   line-height: $line-height-tight;
 
   @include media-md {
-    font-size: $font-size-4xl;
+    font-size: $text-4xl;
   }
 }
 
 .landing-section-header__subtitle {
-  font-size: $font-size-lg;
+  font-size: $text-lg;
   color: var(--landing-text-secondary);
   max-width: 500px;
   margin: 0 auto;
@@ -318,7 +318,7 @@
   background: var(--landing-bg-secondary);
   border: 1px solid var(--landing-border-primary);
   border-radius: $radius-full;
-  font-size: $font-size-sm;
+  font-size: $text-sm;
   color: var(--landing-text-secondary);
   transition: all $transition-fast;
 
@@ -351,7 +351,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: $font-size-lg;
+  font-size: $text-lg;
   color: var(--landing-text-secondary);
   background: var(--landing-bg-secondary);
   border: 1px solid var(--landing-border-primary);
@@ -380,7 +380,7 @@
   gap: $space-2;
   color: var(--landing-text-tertiary);
   text-decoration: none;
-  font-size: $font-size-xs;
+  font-size: $text-xs;
   font-weight: $font-weight-semibold;
   letter-spacing: 0.05em;
   text-transform: uppercase;
