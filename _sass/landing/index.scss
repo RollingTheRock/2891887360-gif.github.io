@@ -3,9 +3,9 @@
 // Main Entry Point
 // ============================================
 
-@forward 'variables';
-@use 'base';
-@use 'grid';
-@use 'cards';
-@use 'hero';
-@use 'animations';
+@import 'variables';
+@import 'base';
+@import 'grid';
+@import 'cards';
+@import 'hero';
+@import 'animations';

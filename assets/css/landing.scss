@@ -2,4 +2,9 @@
 # Landing page custom styles
 ---
 
-@use 'landing';
+@import 'landing/variables';
+@import 'landing/base';
+@import 'landing/grid';
+@import 'landing/cards';
+@import 'landing/hero';
+@import 'landing/animations';
