@@ -1,0 +1,67 @@
+---
+layout: base
+---
+
+<div class="container-wide">
+  {% comment %} Featured Post {% endcomment %}
+  {% assign featured = site.posts | where: "pin", true | first %}
+  {% unless featured %}
+    {% assign featured = site.posts.first %}
+  {% endunless %}
+
+  {% if featured %}
+  <section class="home-featured">
+    <a href="{{ featured.url | relative_url }}" class="featured-link">
+      {% if featured.image %}
+      <div class="featured-image">
+        <img src="{{ featured.image | relative_url }}" alt="{{ featured.title }}">
+      </div>
+      {% endif %}
+
+      <div class="featured-content">
+        {% if featured.categories.size > 0 %}
+        <span class="featured-category">{{ featured.categories[0] }}</span>
+        {% endif %}
+        <h1 class="featured-title">{{ featured.title }}</h1>
+        <p class="featured-excerpt">{{ featured.description | default: featured.excerpt | strip_html | truncate: 200 }}</p>
+        <div class="featured-meta">
+          <span>{{ site.social.name }}</span>
+          <span>·</span>
+          <time>{{ featured.date | date: "%Y年%m月%d日" }}</time>
+        </div>
+      </div>
+    </a>
+  </section>
+  {% endif %}
+
+  {% comment %} Recent Posts {% endcomment %}
+  <section class="home-articles">
+    <div class="section-header">
+      <h2 class="section-title">最新文章</h2>
+      <a href="{{ '/blog/' | relative_url }}" class="section-more">查看全部 →</a>
+    </div>
+
+    <div class="blog-list">
+      {% for post in site.posts offset:1 limit:6 %}
+      <article class="blog-list-item">
+        <a href="{{ post.url | relative_url }}" class="blog-list-link">
+          {% if post.image %}
+          <div class="blog-list-image">
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+          </div>
+          {% endif %}
+
+          <div class="blog-list-content">
+            {% if post.categories.size > 0 %}
+            <span class="blog-list-category">{{ post.categories[0] }}</span>
+            {% endif %}
+            <h2 class="blog-list-title">{{ post.title }}</h2>
+            <p class="blog-list-excerpt">{{ post.description | default: post.excerpt | strip_html | truncate: 120 }}</p>
+            <time class="blog-list-date">{{ post.date | date: "%Y.%m.%d" }}</time>
+          </div>
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+</div>

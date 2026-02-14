@@ -1,0 +1,73 @@
+---
+layout: base
+---
+
+<article class="post">
+  <header class="post-header">
+    <div class="container-article">
+      {% if page.categories.size > 0 %}
+      <a href="{{ '/categories/' | append: page.categories[0] | slugify | append: '/' | relative_url }}" class="post-category-link">
+        {{ page.categories[0] }}
+      </a>
+      {% endif %}
+
+      <h1 class="post-title">{{ page.title }}</h1>
+
+      {% if page.description %}
+      <p class="post-subtitle">{{ page.description }}</p>
+      {% endif %}
+
+      <div class="post-meta">
+        <img src="{{ site.avatar | relative_url }}" alt="{{ site.social.name }}" class="post-author-avatar">
+        <div class="post-author-info">
+          <span class="post-author-name">{{ site.social.name }}</span>
+          <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y年%m月%d日" }}</time>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {% if page.image %}
+  <figure class="post-cover">
+    <div class="container-wide">
+      <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+    </div>
+  </figure>
+  {% endif %}
+
+  <div class="post-content container-article">
+    {{ content }}
+  </div>
+
+  {% if page.tags.size > 0 %}
+  <div class="post-tags container-article">
+    {% for tag in page.tags %}
+    <a href="{{ '/tags/' | append: tag | slugify | append: '/' | relative_url }}" class="post-tag">#{{ tag }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <nav class="post-navigation container-article">
+    {% if page.previous.url %}
+    <a href="{{ page.previous.url | relative_url }}" class="post-nav-link post-nav-prev">
+      <span class="post-nav-label">上一篇</span>
+      <span class="post-nav-title">{{ page.previous.title }}</span>
+    </a>
+    {% else %}
+    <div></div>
+    {% endif %}
+
+    {% if page.next.url %}
+    <a href="{{ page.next.url | relative_url }}" class="post-nav-link post-nav-next">
+      <span class="post-nav-label">下一篇</span>
+      <span class="post-nav-title">{{ page.next.title }}</span>
+    </a>
+    {% endif %}
+  </nav>
+
+  {% if page.comments != false %}
+  <div class="post-comments container-article" style="padding: 48px 0;">
+    {% include comment.html %}
+  </div>
+  {% endif %}
+</article>
